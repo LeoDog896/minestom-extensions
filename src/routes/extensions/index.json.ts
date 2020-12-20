@@ -1,14 +1,9 @@
-interface Extension {
-	name: String
-}
-
-const extensions: Extension[] = [
-	
-]
+import { extensions } from './_extensions';
 
 const contents = JSON.stringify(extensions.map(post => {
 	return {
-		title: post.name
+		title: post.name,
+		type: post.type
 	};
 }));
 
