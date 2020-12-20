@@ -1,11 +1,6 @@
 import { extensions } from './_extensions';
 
-const contents = JSON.stringify(extensions.map(post => {
-	return {
-		title: post.name,
-		type: post.type
-	};
-}));
+const contents = JSON.stringify(extensions);
 
 export function get(req, res) {
 	res.writeHead(200, {

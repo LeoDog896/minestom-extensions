@@ -3,8 +3,8 @@
 	export function preload() {
 		return this.fetch(`extensions.json`)
 		.then((r: { json: () => any; }) => r.json())
-		.then((extension: Extension[]) => {
-			return { extension };
+		.then((extensions: Extension[]) => {
+			return { extensions };
 		});
 	}
 </script>
@@ -17,6 +17,8 @@
 	export let extensions: Extension[];
 </script>
 
-{#each extensions as extension}
-	<p>{extension.name}</p>
-{/each}
+<section id="photos">
+	{#each extensions as extension}
+		<a href="extensions/{extension.slug}">{extension.name}</a><br />
+	{/each}
+</section>
