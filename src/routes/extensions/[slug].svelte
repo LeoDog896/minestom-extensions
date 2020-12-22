@@ -55,5 +55,9 @@
 <h1>{extension.name}</h1>
 
 <div class="content">
+	Source code: <a href={extension.repo}>{extension.repo}</a>
+	<br />
+	<br />
 	{extension.description}
+	<br>
 </div>
