@@ -15,7 +15,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Set up JDK 11
+      - name: Set up Node 12
         uses: actions/setup-node@v2
         with:
           node-version: '12'
@@ -26,9 +26,3 @@ jobs:
         run: pnpm install
       - name: Build website
         run: pnpm run build
-      - name: Deploy API documentation to Github Pages
-        uses: JamesIves/github-pages-deploy-action@3.7.1
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages
-          FOLDER: __sapper__/build
