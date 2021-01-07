@@ -36,6 +36,14 @@ const extensions: Extension[] = [
 		short_description: "Example Extension built on top of kotlin",
 		description: "Example Extension built on top of kotlin",
 		repo: "https://github.com/Project-Cepi/ExampleExtension"
+	},
+	{
+		name: "MineSchem",
+		slug: "mine-schem",
+		type: ExtensionType.EXTENSION,
+		short_description: "A Schematic manager for Minestom",
+		description: "Add schematic support for minestom",
+		repo: "https://github.com/sejtam10/MineSchem"
 	}
 
 ]
