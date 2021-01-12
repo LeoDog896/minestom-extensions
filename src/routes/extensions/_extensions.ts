@@ -44,6 +44,14 @@ const extensions: Extension[] = [
 		short_description: "A Schematic manager for Minestom",
 		description: "Add schematic support for minestom",
 		repo: "https://github.com/sejtam10/MineSchem"
+	},
+	{
+		name: "MinestomWorldEdit",
+		slug: "worldedit",
+		type: ExtensionType.EXTENSION,
+		short_description: "A WorldEdit port for Minestom",
+		description: "A WorldEdit port for Minestom",
+		repo: "https://github.com/OpenMinigameServer/MinestomWorldEdit"
 	}
 
 ]
