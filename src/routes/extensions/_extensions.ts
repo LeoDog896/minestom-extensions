@@ -52,6 +52,15 @@ const extensions: Extension[] = [
 		short_description: "A WorldEdit port for Minestom",
 		description: "A WorldEdit port for Minestom",
 		repo: "https://github.com/OpenMinigameServer/MinestomWorldEdit"
+	},
+	{
+
+		name: "LuaMinestom",
+		slug: "lua",
+		type: ExtensionType.EXTENSION,
+		short_description: "Lua platform intergrated into Minestom",
+		description: "Lua platform intergrated into Minestom",
+		repo: "https://github.com/KrystilizeNevaDies/LuaMinestom"
 	}
 
 ]
