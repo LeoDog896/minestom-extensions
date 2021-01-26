@@ -61,6 +61,14 @@ const extensions: Extension[] = [
 		short_description: "Lua platform intergrated into Minestom",
 		description: "Lua platform intergrated into Minestom",
 		repo: "https://github.com/KrystilizeNevaDies/LuaMinestom"
+	},
+	{
+		name: "Orbis",
+		slug: "orbis",
+		type: ExtensionType.EXTENSION,
+		short_description: "A native world generator for Minestom",
+		description: "A native world generator for Minestom",
+		repo: "https://github.com/AzortisCode/Orbis"
 	}
 
 ]
