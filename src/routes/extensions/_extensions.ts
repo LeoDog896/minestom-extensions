@@ -9,7 +9,8 @@ interface Extension {
 
 enum ExtensionType {
 	SERVER = "SERVER",
-	EXTENSION = "EXTENSION"
+	EXTENSION = "EXTENSION",
+	LIBRARY = "LIBRARY"
 }
 
 const extensions: Extension[] = [
@@ -65,7 +66,7 @@ const extensions: Extension[] = [
 	{
 		name: "Orbis",
 		slug: "orbis",
-		type: ExtensionType.EXTENSION,
+		type: ExtensionType.LIBRARY,
 		short_description: "A native world generator for Minestom",
 		description: "A native world generator for Minestom",
 		repo: "https://github.com/AzortisCode/Orbis"
