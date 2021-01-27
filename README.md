@@ -1,2 +1,2 @@
-## Minestom Extensions
-Extension website for minestom
+## Thunderstom
+Library of all minestom applications
