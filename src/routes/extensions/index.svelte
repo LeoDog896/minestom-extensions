@@ -22,6 +22,11 @@
 	.extension p {
 		margin-bottom: 0px;
 	}
+
+	.right {
+		text-align: right;
+		float: right;
+	}
 </style>
 
 <script lang="ts">
@@ -31,7 +36,7 @@
 <section id="extensions">
 	{#each extensions as extension}
 		<div class="extension">
-			<a href="extensions/{extension.slug}">{extension.name}</a> <a href="{extension.repo}">(github)</a> <span>{extension.stars} Stars</span>
+			<a href="extensions/{extension.slug}">{extension.name}</a> <a href="{extension.repo}">(github)</a> <span class="right">{extension.stars} Stars</span>
 			<p>{extension.short_description}</p>
 		</div>
 	{/each}

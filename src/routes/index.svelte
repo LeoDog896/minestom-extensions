@@ -23,9 +23,9 @@
 </style>
 
 <svelte:head>
-	<title>Mxtensions</title>
+	<title>Thunderstom</title>
 </svelte:head>
 
-<h1>Minestom Extensions</h1>
+<h1>Thunderstom</h1>
 
-<p><strong>See all of the extensions of minestom in here.</strong></p>
+<p><strong>All libraries, extension, and servers made for minestom</strong></p>
