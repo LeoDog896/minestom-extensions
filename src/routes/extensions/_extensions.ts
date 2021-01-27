@@ -7,6 +7,7 @@ interface Extension {
 	short_description: string
 	description: string
 	repo: string
+	owner: string
 	stars: number
 }
 
@@ -21,7 +22,8 @@ async function getExtensions(): Promise<Extension[]> {
 			description: entry.description,
 			type: ExtensionType.EXTENSION,
 			repo: entry.html_url,
-			stars: entry.stargazers_count
+			stars: entry.stargazers_count,
+			owner: entry.owner.login
 		}
 	})
 }
