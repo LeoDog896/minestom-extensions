@@ -1,3 +1,5 @@
+import fetch from 'node-fetch';
+
 interface Extension {
 	name: string
 	slug: string
@@ -7,96 +9,26 @@ interface Extension {
 	repo: string
 }
 
+
+async function getExtensions(): Promise<Extension[]> {
+	const data = await fetch(`https://api.github.com/search/repositories?q=topic%3Athunderstom-extension`).then(response => response.json())
+	return data["items"].map((entry): Extension => {
+		return {
+			name: entry.name,
+			slug: entry.full_name.replace("/", "-").toLowerCase(),
+			short_description: entry.description,
+			description: entry.description,
+			type: ExtensionType.EXTENSION,
+			repo: entry.html_url
+		}
+	})
+}
+
 enum ExtensionType {
 	SERVER = "SERVER",
 	EXTENSION = "EXTENSION",
 	LIBRARY = "LIBRARY"
 }
 
-const extensions: Extension[] = [
-	{
-		name: "Sabre",
-		slug: "sabre",
-		type: ExtensionType.SERVER,
-		short_description: "A kotlin-based server jar for Minestom",
-		description: "A kotlin-based server jar for Minestom",
-		repo: "https://github.com/Project-Cepi/Sabre"
-	},
-	{
-		name: "RocketTools",
-		slug: "rocket-tools",
-		type: ExtensionType.EXTENSION,
-		short_description: "Extension Manager for Minestom",
-		description: "Extension Manager for Minestom",
-		repo: "https://github.com/Project-Cepi/RocketTools"
-	},
-	{
-		name: "ExampleExtension",
-		slug: "example-extension",
-		type: ExtensionType.EXTENSION,
-		short_description: "Example Extension built on top of kotlin",
-		description: "Example Extension built on top of kotlin",
-		repo: "https://github.com/Project-Cepi/ExampleExtension"
-	},
-	{
-		name: "MineSchem",
-		slug: "mine-schem",
-		type: ExtensionType.EXTENSION,
-		short_description: "A Schematic manager for Minestom",
-		description: "Add schematic support for minestom",
-		repo: "https://github.com/sejtam10/MineSchem"
-	},
-	{
-		name: "MinestomWorldEdit",
-		slug: "worldedit",
-		type: ExtensionType.EXTENSION,
-		short_description: "A WorldEdit port for Minestom",
-		description: "A WorldEdit port for Minestom",
-		repo: "https://github.com/OpenMinigameServer/MinestomWorldEdit"
-	},
-	{
-
-		name: "LuaMinestom",
-		slug: "lua",
-		type: ExtensionType.EXTENSION,
-		short_description: "Lua platform intergrated into Minestom",
-		description: "Lua platform intergrated into Minestom",
-		repo: "https://github.com/KrystilizeNevaDies/LuaMinestom"
-	},
-	{
-		name: "Orbis",
-		slug: "orbis",
-		type: ExtensionType.LIBRARY,
-		short_description: "A native world generator for Minestom",
-		description: "A native world generator for Minestom",
-		repo: "https://github.com/AzortisCode/Orbis"
-	},
-	{
-		name: "Replay",
-		slug: "replay",
-		type: ExtensionType.EXTENSION,
-		short_description: "Replay extension to see actions of a instance.",
-		description: "Replay extension to see actions of a instance",
-		repo: "https://github.com/OpenMinigameServer/Replay"
-	},
-	{
-		name: "CloudFramework",
-		slug: "cloud",
-		type: ExtensionType.LIBRARY,
-		short_description: "An implementation of the command framework cloud.",
-		description: "An implementation of the command framework cloud.",
-		repo: "https://github.com/OpenMinigameServer/cloud-minestom"
-	},
-	{
-		name: "Atlas",
-		slug: "atlas",
-		type: ExtensionType.EXTENSION,
-		short_description: "An instance (world) manager for Minestom",
-		description: "An instance (world) manager for Minestom",
-		repo: "https://github.com/Project-Cepi/Atlas"
-	}
-
-]
-
-export { extensions }
+export { getExtensions }
 export type { Extension }

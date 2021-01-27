@@ -1,11 +1,10 @@
-import { extensions } from './_extensions';
-
-const contents = JSON.stringify(extensions);
+import { getExtensions } from './_extensions';
 
 export function get(req, res) {
 	res.writeHead(200, {
 		'Content-Type': 'application/json'
 	});
 
-	res.end(contents);
+	getExtensions().then(content => res.end(JSON.stringify(content)))
+
 }

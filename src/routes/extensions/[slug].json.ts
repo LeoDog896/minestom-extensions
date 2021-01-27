@@ -1,9 +1,9 @@
-import { extensions } from './_extensions';
+import { getExtensions } from './_extensions';
 
 const lookup = new Map();
-extensions.forEach(extension => {
+getExtensions().then(data => data.forEach(extension => {
 	lookup.set(extension.slug, JSON.stringify(extension));
-});
+}));
 
 export function get(req, res, next) {
 	// the `slug` parameter is available because

@@ -1,5 +1,6 @@
 dependencies:
   compression: 1.7.4
+  node-fetch: 2.6.1
   polka: 1.0.0-next.11
   sirv: 1.0.10
 devDependencies:
@@ -1863,6 +1864,12 @@ packages:
     dev: true
     resolution:
       integrity: sha512-rmTZ9kz+f3rCvK2TD1Ue/oZlns7OGoIWP4fc3llxxRXlOkHKoWPPWJOfFYpITabSow43QJbRIoHQXtt10VldyQ==
+  /node-fetch/2.6.1:
+    dev: false
+    engines:
+      node: 4.x || >=6.0.0
+    resolution:
+      integrity: sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==
   /node-libs-browser/2.2.1:
     dependencies:
       assert: 1.5.0
@@ -3000,6 +3007,7 @@ specifiers:
   '@types/polka': ^0.5.1
   compression: ^1.7.1
   file-loader: ^6.0.0
+  node-fetch: ^2.6.1
   polka: next
   sapper: ^0.28.0
   sirv: ^1.0.0
