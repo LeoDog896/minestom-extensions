@@ -19,6 +19,9 @@
 		border: 1px solid black;
 		padding: 10px;
 	}
+	.extension p {
+		margin-bottom: 0px;
+	}
 </style>
 
 <script lang="ts">
@@ -28,8 +31,8 @@
 <section id="extensions">
 	{#each extensions as extension}
 		<div class="extension">
-			<a href="extensions/{extension.slug}">{extension.name}</a>
-		<p>{extension.short_description}</p>
+			<a href="extensions/{extension.slug}">{extension.name}</a> <a href="{extension.repo}">(github)</a>
+			<p>{extension.short_description}</p>
 		</div>
 	{/each}
 </section>

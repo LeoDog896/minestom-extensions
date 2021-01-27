@@ -70,6 +70,30 @@ const extensions: Extension[] = [
 		short_description: "A native world generator for Minestom",
 		description: "A native world generator for Minestom",
 		repo: "https://github.com/AzortisCode/Orbis"
+	},
+	{
+		name: "Replay",
+		slug: "replay",
+		type: ExtensionType.EXTENSION,
+		short_description: "Replay extension to see actions of a instance.",
+		description: "Replay extension to see actions of a instance",
+		repo: "https://github.com/OpenMinigameServer/Replay"
+	},
+	{
+		name: "CloudFramework",
+		slug: "cloud",
+		type: ExtensionType.LIBRARY,
+		short_description: "An implementation of the command framework cloud.",
+		description: "An implementation of the command framework cloud.",
+		repo: "https://github.com/OpenMinigameServer/cloud-minestom"
+	},
+	{
+		name: "Atlas",
+		slug: "atlas",
+		type: ExtensionType.EXTENSION,
+		short_description: "An instance (world) manager for Minestom",
+		description: "An instance (world) manager for Minestom",
+		repo: "https://github.com/Project-Cepi/Atlas"
 	}
 
 ]
