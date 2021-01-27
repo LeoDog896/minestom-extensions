@@ -31,7 +31,7 @@
 <section id="extensions">
 	{#each extensions as extension}
 		<div class="extension">
-			<a href="extensions/{extension.slug}">{extension.name}</a> <a href="{extension.repo}">(github)</a>
+			<a href="extensions/{extension.slug}">{extension.name}</a> <a href="{extension.repo}">(github)</a> <span>{extension.stars} Stars</span>
 			<p>{extension.short_description}</p>
 		</div>
 	{/each}

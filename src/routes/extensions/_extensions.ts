@@ -7,11 +7,12 @@ interface Extension {
 	short_description: string
 	description: string
 	repo: string
+	stars: number
 }
 
 
 async function getExtensions(): Promise<Extension[]> {
-	const data = await fetch(`https://api.github.com/search/repositories?q=topic%3Athunderstom-extension`).then(response => response.json())
+	const data = await fetch(`https://api.github.com/search/repositories?q=topic%3Aminestom-extension`).then(response => response.json())
 	return data["items"].map((entry): Extension => {
 		return {
 			name: entry.name,
@@ -19,7 +20,8 @@ async function getExtensions(): Promise<Extension[]> {
 			short_description: entry.description,
 			description: entry.description,
 			type: ExtensionType.EXTENSION,
-			repo: entry.html_url
+			repo: entry.html_url,
+			stars: entry.stargazers_count
 		}
 	})
 }
