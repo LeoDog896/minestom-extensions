@@ -28,4 +28,4 @@
 
 <h1>Thunderstom</h1>
 
-<p><strong>All libraries, extension, and servers made for minestom</strong></p>
+<p><strong>All libraries, extension, and servers made for <a href="https://github.com/Minestom/Minestom">Minestom</a></strong></p>

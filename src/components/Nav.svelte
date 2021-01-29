@@ -29,6 +29,7 @@
 	[aria-current] {
 		position: relative;
 		display: inline-block;
+		transition: 1s;
 	}
 
 	[aria-current]::after {

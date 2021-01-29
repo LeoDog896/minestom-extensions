@@ -18,7 +18,16 @@
 		margin-bottom: 20px;
 		border: 1px solid black;
 		padding: 10px;
+		color: black;
+		background-color: white;
+		transition: 100ms;
 	}
+
+	.extension:hover {
+		color: white;
+		background-color: black;
+	}
+
 	.extension p {
 		margin-bottom: 0px;
 	}
@@ -36,7 +45,10 @@
 <section id="extensions">
 	{#each extensions as extension}
 		<div class="extension">
-		<a href="extensions/{extension.slug}">{extension.name}</a> <a href="{extension.repo}">(github)</a> <a href="https://github.com/{extension.owner}">by {extension.owner}</a> <span class="right">{extension.stars} Stars</span>
+			<a href="extensions/{extension.slug}">{extension.name}</a>
+			<a href="{extension.repo}">(github)</a>
+			<a href="https://github.com/{extension.owner}">by {extension.owner}</a>
+			<span class="right">{extension.stars} Stars</span>
 			<p>{extension.short_description}</p>
 		</div>
 	{/each}
