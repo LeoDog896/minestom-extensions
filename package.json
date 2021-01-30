@@ -16,7 +16,8 @@
     "dotenv": "^8.2.0",
     "node-fetch": "^2.6.1",
     "polka": "next",
-    "sirv": "^1.0.0"
+    "sirv": "^1.0.0",
+    "winston": "^3.3.3"
   },
   "devDependencies": {
     "@tsconfig/svelte": "^1.0.10",

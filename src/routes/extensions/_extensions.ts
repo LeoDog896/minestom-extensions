@@ -1,5 +1,6 @@
 import { graphql } from "@octokit/graphql";
 import dotenv from "dotenv";
+import logger from '../../components/_logger'
 dotenv.config()
 
 interface Release { 
@@ -56,6 +57,7 @@ const query = `
 `
 
 async function getGithubInformation(topic: string): Promise<any[]> { // TODO official typing
+	logger.info("test")
 	try {
 		const data = await graphql(
 			query.replace("{type}", topic),
@@ -69,8 +71,7 @@ async function getGithubInformation(topic: string): Promise<any[]> { // TODO off
 
 	} catch (error) {
 		// Log error to console
-		// TODO use winston or some js logger
-		console.error("Api request error: " + "\r\n" + error.message);
+		logger.error("Api request error: " + "\r\n" + error.message);
 
 		return [] // Stops the page from crashing accidentally.
 	}
