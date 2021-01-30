@@ -17,7 +17,20 @@
 </script>
 
 <script lang="ts">
+
 	export let extension: Extension;
+
+	let content = "Loading readme..."
+	
+	import { fetch } from "cross-fetch";
+
+	fetch(`https://api.github.com/repos/${extension.owner}/${extension.name}/contents/README.md`, {
+		headers: {
+			'Accept': 'application/vnd.github.v3.html'
+		}
+	})
+	.then(response => response.text())
+	.then(result => content = result)
 </script>
 
 <style>
@@ -58,6 +71,8 @@
 	Source code: <a href={extension.repo}>{extension.repo}</a>
 	<br />
 	<br />
-	{extension.description}
+	<section id="readme">
+		{@html content}
+	</section>
 	<br>
 </div>

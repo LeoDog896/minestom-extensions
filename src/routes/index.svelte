@@ -29,3 +29,4 @@
 <h1>Thunderstom</h1>
 
 <p><strong>All libraries, extension, and servers made for <a href="https://github.com/Minestom/Minestom">Minestom</a></strong></p>
+<p>Add your extension by adding the topic (minestom-(server/extension/library)). The changes should take around 2 minutes to apply.</p>

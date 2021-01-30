@@ -1,36 +1,58 @@
-import fetch from 'node-fetch';
 import { graphql } from "@octokit/graphql";
 import dotenv from "dotenv";
 dotenv.config()
+
+interface Release { 
+	name: string
+	url: string
+}
 
 interface Extension {
 	name: string
 	slug: string
 	type: ExtensionType
-	short_description: string
 	description: string
 	repo: string
 	owner: string
 	stars: number
 }
 
+/**
+ * The GraphQL query to get all the necessary data.
+ */
 const query = `
 {
 	search(type: REPOSITORY, query: "topic:minestom-{type}", first: 50) {
-	  edges {
-		node {
-		  ... on Repository {
-			description
-			name
-			stargazerCount
-			owner {
-			  login
+		edges {
+			node {
+			  ... on Repository {
+				description
+				name
+				stargazerCount
+				owner {
+				  login
+				}
+				releases(first: 1) {
+				  edges {
+					node {
+					  name
+					  releaseAssets(first: 10) {
+						edges {
+						  node {
+							url
+							name
+						  }
+						}
+					  }
+					}
+				  }
+				}
+			  }
 			}
 		  }
 		}
 	  }
-	}
-  }
+	  
 `
 
 async function getGithubInformation(topic: string): Promise<any[]> { // TODO official typing
@@ -64,6 +86,8 @@ async function getGithubInformation(topic: string): Promise<any[]> { // TODO off
  * @return A promise containing a list of extensions on that topic. Empty array if none are found.
  */
 function getExtensionsTopic(topic: string, type: ExtensionType): () => Promise<Extension[]> {
+
+	// Time cache. Will refresh data if a request is made after 2 minutes.
 	let cache = null
 	let time = Date.now()
 
@@ -71,22 +95,14 @@ function getExtensionsTopic(topic: string, type: ExtensionType): () => Promise<E
 
 		if (cache != undefined && Date.now() - time < 1000 * 60 * 2) return cache
 
+		// Gets the github information from a GraphQL API
 		const data = await getGithubInformation(topic);
-
-		// TODO move to graphql fetch
-		// if (data == null || data["items"] == null) {
-		// 	// Log error to console
-		// 	// TODO use winston or some js logger
-		// 	console.error("Api request error: " + "\r\n" + response.message);
-
-		// 	return [] // Stops the page from crashing accidentally.
-		// }
-
+		
+		// Maps all the data to the interface. Slimmer!
 		const processedData = data.map((entry): Extension => {
 			return {
 				name: entry.node.name,
 				slug: entry.node.owner.login + "_" + entry.node.name,
-				short_description: entry.node.description,
 				description: entry.node.description,
 				type,
 				repo: `https://github.com/${entry.node.owner.login}/${entry.node.name}`,
@@ -95,6 +111,7 @@ function getExtensionsTopic(topic: string, type: ExtensionType): () => Promise<E
 			}
 		})
 
+		// Refreshes the cache.
 		cache = processedData
 		time = Date.now()
 
@@ -102,6 +119,11 @@ function getExtensionsTopic(topic: string, type: ExtensionType): () => Promise<E
 	}
 }
 
+/**
+ * Gets a list of all the extensions containing all the necessary topics
+ * 
+ * @return All the extensions
+ */
 async function getExtensions(): Promise<Extension[]> {
 	return Promise.all([
 		getExtensionsTopic("extension", ExtensionType.EXTENSION)(),

@@ -12,6 +12,7 @@
   "dependencies": {
     "@octokit/graphql": "^4.5.9",
     "compression": "^1.7.1",
+    "cross-fetch": "^3.0.6",
     "dotenv": "^8.2.0",
     "node-fetch": "^2.6.1",
     "polka": "next",
