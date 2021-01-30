@@ -33,14 +33,26 @@ const query = `
   }
 `
 
-async function getGithubInformation(topic: string) {
-	return (await graphql(
-		query.replace("{type}", topic),
-		{
-			headers: {
-				authorization: `token ${process.env.GITHUB}`,
-			},
-		}))["search"]["edges"]
+async function getGithubInformation(topic: string): Promise<any[]> { // TODO official typing
+	try {
+		const data = await graphql(
+			query.replace("{type}", topic),
+			{
+				headers: {
+					authorization: `token ${process.env.GITHUB}`,
+				},
+			})
+
+		return data["search"]["edges"]
+
+	} catch (error) {
+		// Log error to console
+		// TODO use winston or some js logger
+		console.error("Api request error: " + "\r\n" + error.message);
+
+		return [] // Stops the page from crashing accidentally.
+	}
+
 }
 
 /**
@@ -52,8 +64,6 @@ async function getGithubInformation(topic: string) {
  * @return A promise containing a list of extensions on that topic. Empty array if none are found.
  */
 function getExtensionsTopic(topic: string, type: ExtensionType): () => Promise<Extension[]> {
-	// TODO apparantely github has a GraphQL API. Less bandwidth = more fun!
-
 	let cache = null
 	let time = Date.now()
 
