@@ -36,7 +36,7 @@
 		position: absolute;
 		content: '';
 		width: calc(100% - 1em);
-		height: 2px;
+		height: 5px;
 		background-color: rgb(255,62,0);
 		display: block;
 		bottom: -1px;
@@ -47,15 +47,82 @@
 		padding: 1em 0.5em;
 		display: block;
 	}
+
+	li.social {
+		float: right;
+		text-align: right;
+	}
+
+	img {
+		object-fit: scale-down;
+		height: 32px;
+		transition: 50ms;
+	}
+
+	img:hover {
+		transform: scale(1.1);
+	}
+
+	/* Page Button fancy css */
+	
+	.pagebutton {
+	  display: inline-block;
+	  vertical-align: middle;
+	  -webkit-transform: perspective(1px) translateZ(0);
+	  transform: perspective(1px) translateZ(0);
+	  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+	  position: relative;
+	  overflow: hidden;
+	}
+	
+	.pagebutton:before {
+	  content: "";
+	  position: absolute;
+	  z-index: -1;
+	  left: 0;
+	  right: 0;
+	  bottom: 0;
+	  background: rgb(255,62,0);
+	  height: 4px;
+	  -webkit-transform: translateY(4px);
+	  transform: translateY(4px);
+	  -webkit-transition-property: transform;
+	  transition-property: transform;
+	  -webkit-transition-duration: 100MS;
+	  transition-duration: 100MS;
+	  -webkit-transition-timing-function: ease-out;
+	  transition-timing-function: ease-out;
+	}
+	
+	.pagebutton:hover:before, .pagebutton:focus:before, .pagebutton:active:before {
+	  -webkit-transform: translateY(0);
+	  transform: translateY(0);
+	}
 </style>
 
 <nav>
 	<ul>
-		<li><a aria-current="{segment === undefined ? 'page' : undefined}" href=".">home</a></li>
-		<li><a aria-current="{segment === 'about' ? 'page' : undefined}" href="about">about</a></li>
+		<li class="pagebutton"><a aria-current="{segment === undefined ? 'page' : undefined}" href=".">home</a></li>
+		<li class="pagebutton"><a aria-current="{segment === 'about' ? 'page' : undefined}" href="about">about</a></li>
 
 		<!-- for the blog link, we're using rel=prefetch so that Sapper prefetches
 		     the blog data when we hover over the link or tap it on a touchscreen -->
-		<li><a rel=prefetch aria-current="{segment === 'extensions' ? 'page' : undefined}" href="extensions">extensions</a></li>
+		<li class="pagebutton"><a rel=prefetch aria-current="{segment === 'extensions' ? 'page' : undefined}" href="extensions">extensions</a></li>
+
+		<li class="social">
+			<a href="https://wiki.minestom.com">
+				<img src="https://avatars.githubusercontent.com/u/7111340?s=400&v=4" alt="Github"/>
+			</a>
+		</li>
+		<li class="social">
+			<a href="https://github.com/Minestom/Minestom">
+				<img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="Github"/>
+			</a>
+		</li>
+		<li class="social">
+			<a href="https://discord.com/invite/pkFRvqB">
+				<img src="https://discord.com/assets/2c21aeda16de354ba5334551a883b481.png" alt="Discord"/>
+			</a>
+		</li>
 	</ul>
 </nav>

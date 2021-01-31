@@ -5,32 +5,28 @@
 	export async function preload({ params }) {
 		// the `slug` parameter is available because
 		// this file is called [slug].svelte
-		const res = await this.fetch(`extensions/${params.slug}.json`);
-		const data = await res.json();
+		const extensionResponse = await this.fetch(`extensions/${params.slug}.json`);
+		const extension = await extensionResponse.json();
 
-		if (res.status === 200) {
-			return { extension: data };
+		const readmeResponse = await this.fetch(`https://api.github.com/repos/${extension.owner}/${extension.name}/contents/README.md`, {
+			headers: {
+				'Accept': 'application/vnd.github.v3.html'
+			}
+		})
+
+		const readme = await readmeResponse.text();
+
+		if (extensionResponse.status === 200) {
+			return { extension, readme };
 		} else {
-			this.error(res.status, data.message);
+			this.error(extensionResponse.status, extension.message);
 		}
 	}
 </script>
 
 <script lang="ts">
-
 	export let extension: Extension;
-
-	let content = "Loading readme..."
-	
-	import { fetch } from "cross-fetch";
-
-	fetch(`https://api.github.com/repos/${extension.owner}/${extension.name}/contents/README.md`, {
-		headers: {
-			'Accept': 'application/vnd.github.v3.html'
-		}
-	})
-	.then(response => response.text())
-	.then(result => content = result)
+	export let readme: string;
 </script>
 
 <style>
@@ -68,11 +64,11 @@
 <h1>{extension.name}</h1>
 
 <div class="content">
-	Source code: <a href={extension.repo}>{extension.repo}</a>
+	Source code: <a href="{extension.repo}">{extension.repo}</a>
 	<br />
 	<br />
 	<section id="readme">
-		{@html content}
+		{@html readme}
 	</section>
 	<br>
 </div>

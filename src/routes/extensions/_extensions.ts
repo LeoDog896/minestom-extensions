@@ -57,7 +57,6 @@ const query = `
 `
 
 async function getGithubInformation(topic: string): Promise<any[]> { // TODO official typing
-	logger.info("test")
 	try {
 		const data = await graphql(
 			query.replace("{type}", topic),
@@ -71,7 +70,7 @@ async function getGithubInformation(topic: string): Promise<any[]> { // TODO off
 
 	} catch (error) {
 		// Log error to console
-		logger.error("Api request error: " + "\r\n" + error.message);
+		logger.error("API request error: " + "\r\n" + error.message);
 
 		return [] // Stops the page from crashing accidentally.
 	}
@@ -89,8 +88,8 @@ async function getGithubInformation(topic: string): Promise<any[]> { // TODO off
 function getExtensionsTopic(topic: string, type: ExtensionType): () => Promise<Extension[]> {
 
 	// Time cache. Will refresh data if a request is made after 2 minutes.
-	let cache = null
-	let time = Date.now()
+	let cache: Extension[]
+	let time: number = Date.now()
 
 	return async function () {
 
@@ -131,7 +130,9 @@ async function getExtensions(): Promise<Extension[]> {
 		getExtensionsTopic("library", ExtensionType.LIBRARY)(),
 		getExtensionsTopic("server", ExtensionType.SERVER)(),
 	])
+		// Flattens the array.
 		.then(extensions => [].concat(...extensions))
+		// Sorts it from greatest number of stars to smallest number of stars
 		.then(extensions => extensions.sort((extensionA, extensionB) => extensionB.stars - extensionA.stars));
 }
 
