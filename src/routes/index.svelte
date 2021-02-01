@@ -9,6 +9,11 @@
 		height: 100px;
 	}
 
+	h2 {
+		text-align: center;
+		margin: 0 auto;
+	}
+
 	.header {
 		text-align: center;
 	}
@@ -23,4 +28,7 @@
 </div>
 
 <p>The next generation of Minecraft: Java Edition servers.</p>
+<br /><br />
+<h2>Adding an extension</h2>
+
 <p>Add your extension by adding the topic (minestom-(server/extension/library)). The changes should take around 2 minutes to apply.</p>
