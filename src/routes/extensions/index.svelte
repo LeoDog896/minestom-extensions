@@ -75,7 +75,7 @@
 				<a href="{extension.repo}">(github)</a>
 				<a href="https://github.com/{extension.owner}">by {extension.owner}</a>
 				<span class="right stars">{extension.stars} Stars</span>
-				<p>{extension.description}</p>
+				<p>{extension.description || "No description provided"}</p>
 			</div>
 		</a>
 	{/each}

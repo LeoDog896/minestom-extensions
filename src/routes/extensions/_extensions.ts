@@ -23,7 +23,7 @@ interface Extension {
  */
 const query = `
 {
-	search(type: REPOSITORY, query: "topic:minestom-{type}", first: 50) {
+	search(type: REPOSITORY, query: "topic:minestom-{type}", first: {amount}) {
 		edges {
 			node {
 			  ... on Repository {
@@ -56,10 +56,15 @@ const query = `
 	  
 `
 
-async function getGithubInformation(topic: string): Promise<any[]> { // TODO official typing
+// TODO allow cursor indexing
+async function getGithubInformation(topic: string, amount: number = 50): Promise<any[]> { // TODO official typing
+
+	// Clamp the amount to hardcoded 1 to 50.
+	amount = Math.min(Math.max(amount, 1), 50);
+
 	try {
 		const data = await graphql(
-			query.replace("{type}", topic),
+			query.replace("{type}", topic).replace("{amount}", amount.toString()),
 			{
 				headers: {
 					authorization: `token ${process.env.GITHUB}`,
@@ -85,7 +90,7 @@ async function getGithubInformation(topic: string): Promise<any[]> { // TODO off
  * 
  * @return A promise containing a list of extensions on that topic. Empty array if none are found.
  */
-function getExtensionsTopic(topic: string, type: ExtensionType): () => Promise<Extension[]> {
+function getExtensionsTopic(topic: string, type: ExtensionType, amount: number = 50): () => Promise<Extension[]> {
 
 	// Time cache. Will refresh data if a request is made after 2 minutes.
 	let cache: Extension[]
@@ -93,21 +98,22 @@ function getExtensionsTopic(topic: string, type: ExtensionType): () => Promise<E
 
 	return async function () {
 
-		if (cache != undefined && Date.now() - time < 1000 * 60 * 2) return cache
+		// Cache can't be invalid, and 1000 (ms) * 60 (s) * 2 (minutes) before resetting the cache.
+		if (cache && Date.now() - time < 1000 * 60 * 2) return cache
 
 		// Gets the github information from a GraphQL API
-		const data = await getGithubInformation(topic);
+		const data = await getGithubInformation(topic, amount);
 		
 		// Maps all the data to the interface. Slimmer!
-		const processedData = data.map((entry): Extension => {
+		const processedData = data.map(({ node: { name, owner: { owner }, description, stargazerCount: stars } }): Extension => {
 			return {
-				name: entry.node.name,
-				slug: entry.node.owner.login + "_" + entry.node.name,
-				description: entry.node.description,
+				name,
+				slug: owner + "_" + name,
+				description,
 				type,
-				repo: `https://github.com/${entry.node.owner.login}/${entry.node.name}`,
-				stars: entry.node.stargazerCount,
-				owner: entry.node.owner.login
+				repo: `https://github.com/${owner}/${name}`,
+				stars,
+				owner
 			}
 		})
 

@@ -5,7 +5,7 @@ getExtensions().then(data => data.forEach(extension => {
 	lookup.set(extension.slug, JSON.stringify(extension));
 }));
 
-export function get(req, res, next) {
+export function get(req, res) {
 	// the `slug` parameter is available because
 	// this file is called [slug].json.js
 	const { slug } = req.params;

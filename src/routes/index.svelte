@@ -31,4 +31,4 @@
 <br /><br />
 <h2>Adding an extension</h2>
 
-<p>Add your extension by adding the topic (minestom-(server/extension/library)). The changes should take around 2 minutes to apply.</p>
+<p>Add your extension by adding the topic minestom-server, minestom-library, or minestom-extension. The changes should take around 2 minutes to apply.</p>

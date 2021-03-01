@@ -13,7 +13,7 @@ const logger = winston.createLogger({
 		winston.format.colorize({ all: true }),
 		winston.format.splat(),
 		winston.format.printf(info => {
-			return `[Extensions] ${info.timestamp} [${info.level}]: ${info.message}`;
+			return `[Minestom] ${info.timestamp} [${info.level}]: ${info.message}`;
 		})
 	),
 	transports
