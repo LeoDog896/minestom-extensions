@@ -1,3 +1,6 @@
+<script context="module">
+	export const prerender = true;
+</script>
 <style>
 	p {
 		text-align: center;
