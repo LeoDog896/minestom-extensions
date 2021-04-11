@@ -53,7 +53,7 @@ async function getGithubInformation(topic: string, amount = 50): Promise<any[]> 
 			{
 				headers: {
 					authorization: `token ${process.env.GITHUB}`,
-				},
+				}
 			})
 
 		return data["search"]["edges"]
@@ -75,7 +75,7 @@ async function getGithubInformation(topic: string, amount = 50): Promise<any[]> 
 function getExtensionsTopic(topic: string, type: ExtensionType, amount = 50): () => Promise<Extension[]> {
 
 	// Time cache. Will refresh data if a request is made after 2 minutes.
-	let cache: Extension[]
+	let cache: Extension[] = []
 	let time: number = Date.now()
 
 	return async () => {
