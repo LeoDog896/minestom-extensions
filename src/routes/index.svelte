@@ -1,19 +1,15 @@
 <style>
-
 	p {
 		text-align: center;
 		margin: 1em auto;
 	}
-
 	img {
 		height: 100px;
 	}
-
 	h2 {
 		text-align: center;
 		margin: 0 auto;
 	}
-
 	.header {
 		text-align: center;
 	}

@@ -1,11 +1,16 @@
 <script context="module" lang="ts">
-	import type { Extension } from './_extensions';
-	export function preload() {
-		return this.fetch(`extensions.json`)
-		.then((r: { json: () => any; }) => r.json())
-		.then((extensions: Extension[]) => {
-			return { extensions };
-		});
+	import type { Extension } from './_extensionTypes';
+	export async function load({ fetch }) {
+		const res = await fetch(`extensions.json`)
+
+		if (res.ok) {
+			return { props: { extensions: await res.json() } };
+		}
+
+		return {
+			status: res.status,
+			error: new Error(`Could not load extensions`)
+		};
 	}
 </script>
 
@@ -13,20 +18,24 @@
 	<title>Extensions</title>
 </svelte:head>
 
-<style>
-	.extension{
+<style lang="scss">
+	.extension {
 		margin-bottom: 20px;
 		border: 1px solid black;
 		padding: 10px;
 		color: black;
+
+		&:hover {
+			color: #222;
+		}
 	}
 	
 	a {
 		text-decoration: none;
-	}
 
-	.extension:hover {
-		color: #222;
+		&:hover {
+			color: #999;
+		}
 	}
 	
 	.stars:hover {
@@ -45,21 +54,15 @@
 	/* Dont mind me, just making some fancy css */
 	
 	.banner {
-	    background-image: -webkit-linear-gradient(-90deg, #DDD 50%, transparent 50%);
 	    background-image: linear-gradient(-90deg, #DDD 50%, transparent 50%);
 	    background-position: 100%;
 	    background-size: 225%;
-	    -webkit-transition: 1000ms cubic-bezier(0.10, 1.0, 0.10, 1.0);
 	    transition: 1000ms cubic-bezier(0.10, 1.0, 0.10, 1.0);
-	}
-	
-	.banner:hover {
-	    background-position: 12.5%;
-		background-size: 200%;
-	}
-	
-	a:hover {
-		color: #999;
+
+		&:hover {
+			background-position: 12.5%;
+			background-size: 200%;
+		}
 	}
 </style>
 
@@ -68,15 +71,20 @@
 </script>
 
 <section id="extensions">
-	{#each extensions as extension}
-		<a href="extensions/{extension.slug}">
-			<div class="extension banner">
-				{extension.name}
-				<a href="{extension.repo}">(github)</a>
-				<a href="https://github.com/{extension.owner}">by {extension.owner}</a>
-				<span class="right stars">{extension.stars} Stars</span>
-				<p>{extension.description || "No description provided"}</p>
-			</div>
-		</a>
-	{/each}
+	{#if Array.isArray(extensions)}
+		{#each extensions as extension}
+			<a href="extensions/{extension.slug}">
+				<div class="extension banner">
+					{extension.name}
+					<a href="{extension.repo}">(github)</a>
+					<a href="https://github.com/{extension.owner}">by {extension.owner || "unknown"}</a>
+					<span class="right stars">{extension.stars || 0} Stars</span>
+					<p>{extension.description || "No description provided"}</p>
+				</div>
+			</a>
+		{/each}
+	{/if}
+	{#if !Array.isArray(extensions)}
+		<p>An internal error has occurred.</p>
+	{/if}
 </section>

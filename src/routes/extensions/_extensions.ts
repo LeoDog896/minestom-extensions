@@ -1,22 +1,7 @@
-import { graphql } from "@octokit/graphql";
-import dotenv from "dotenv";
-import logger from '../../components/_logger'
-dotenv.config()
-
-interface Release { 
-	name: string
-	url: string
-}
-
-interface Extension {
-	name: string
-	slug: string
-	type: ExtensionType
-	description: string
-	repo: string
-	owner: string
-	stars: number
-}
+import * as octo from "@octokit/graphql";
+import {} from "dotenv/config";
+import type { Extension } from './_extensionTypes'
+import { ExtensionType } from './_extensionTypes'
 
 /**
  * The GraphQL query to get all the necessary data.
@@ -57,13 +42,13 @@ const query = `
 `
 
 // TODO allow cursor indexing
-async function getGithubInformation(topic: string, amount: number = 50): Promise<any[]> { // TODO official typing
+async function getGithubInformation(topic: string, amount = 50): Promise<any[]> { // TODO official typing
 
 	// Clamp the amount to hardcoded 1 to 50.
 	amount = Math.min(Math.max(amount, 1), 50);
 
 	try {
-		const data = await graphql(
+		const data = await octo.graphql(
 			query.replace("{type}", topic).replace("{amount}", amount.toString()),
 			{
 				headers: {
@@ -74,9 +59,6 @@ async function getGithubInformation(topic: string, amount: number = 50): Promise
 		return data["search"]["edges"]
 
 	} catch (error) {
-		// Log error to console
-		logger.error("API request error: " + "\r\n" + error.message);
-
 		return [] // Stops the page from crashing accidentally.
 	}
 
@@ -90,13 +72,13 @@ async function getGithubInformation(topic: string, amount: number = 50): Promise
  * 
  * @return A promise containing a list of extensions on that topic. Empty array if none are found.
  */
-function getExtensionsTopic(topic: string, type: ExtensionType, amount: number = 50): () => Promise<Extension[]> {
+function getExtensionsTopic(topic: string, type: ExtensionType, amount = 50): () => Promise<Extension[]> {
 
 	// Time cache. Will refresh data if a request is made after 2 minutes.
 	let cache: Extension[]
 	let time: number = Date.now()
 
-	return async function () {
+	return async () => {
 
 		// Cache can't be invalid, and 1000 (ms) * 60 (s) * 2 (minutes) before resetting the cache.
 		if (cache && Date.now() - time < 1000 * 60 * 2) return cache
@@ -136,17 +118,10 @@ async function getExtensions(): Promise<Extension[]> {
 		getExtensionsTopic("library", ExtensionType.LIBRARY)(),
 		getExtensionsTopic("server", ExtensionType.SERVER)(),
 	])
-		// Flattens the array.
+		// Flatten the array.
 		.then(extensions => [].concat(...extensions))
 		// Sorts it from greatest number of stars to smallest number of stars
 		.then(extensions => extensions.sort((extensionA, extensionB) => extensionB.stars - extensionA.stars));
 }
 
-enum ExtensionType {
-	SERVER = "SERVER",
-	EXTENSION = "EXTENSION",
-	LIBRARY = "LIBRARY"
-}
-
 export { getExtensions }
-export type { Extension }

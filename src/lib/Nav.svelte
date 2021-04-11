@@ -1,37 +1,38 @@
+
 <script lang="ts">
 	export let segment: string;
 </script>
 
-<style>
+<style lang="scss">
 	nav {
 		border-bottom: 1px solid rgba(255,62,0,0.1);
 		font-weight: 300;
 		padding: 0 1em;
 	}
-
 	ul {
 		margin: 0;
 		padding: 0;
 	}
-
 	/* clearfix */
 	ul::after {
 		content: '';
 		display: block;
 		clear: both;
 	}
-
 	li {
 		display: block;
 		float: left;
-	}
 
+		&.social {
+			float: right;
+			text-align: right;
+		}
+	}
 	[aria-current] {
 		position: relative;
 		display: inline-block;
 		transition: 1s;
 	}
-
 	[aria-current]::after {
 		position: absolute;
 		content: '';
@@ -41,62 +42,55 @@
 		display: block;
 		bottom: -1px;
 	}
-
 	a {
 		text-decoration: none;
 		padding: 1em 0.5em;
 		display: block;
 	}
-
-	li.social {
-		float: right;
-		text-align: right;
-	}
-
+	
 	img {
 		object-fit: scale-down;
 		height: 32px;
 		transition: 50ms;
-	}
 
-	img:hover {
-		transform: scale(1.1);
+		&:hover {
+			transform: scale(1.1);
+		}
 	}
-
 	/* Page Button fancy css */
 	
 	.pagebutton {
-	  display: inline-block;
-	  vertical-align: middle;
-	  -webkit-transform: perspective(1px) translateZ(0);
-	  transform: perspective(1px) translateZ(0);
-	  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
-	  position: relative;
-	  overflow: hidden;
+		display: inline-block;
+		vertical-align: middle;
+		-webkit-transform: perspective(1px) translateZ(0);
+		transform: perspective(1px) translateZ(0);
+		box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+		position: relative;
+		overflow: hidden;
 	}
 	
 	.pagebutton:before {
-	  content: "";
-	  position: absolute;
-	  z-index: -1;
-	  left: 0;
-	  right: 0;
-	  bottom: 0;
-	  background: rgb(255,62,0);
-	  height: 4px;
-	  -webkit-transform: translateY(4px);
-	  transform: translateY(4px);
-	  -webkit-transition-property: transform;
-	  transition-property: transform;
-	  -webkit-transition-duration: 100MS;
-	  transition-duration: 100MS;
-	  -webkit-transition-timing-function: ease-out;
-	  transition-timing-function: ease-out;
+		content: "";
+		position: absolute;
+		z-index: -1;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: rgb(255,62,0);
+		height: 4px;
+		-webkit-transform: translateY(4px);
+		transform: translateY(4px);
+		-webkit-transition-property: transform;
+		transition-property: transform;
+		-webkit-transition-duration: 100MS;
+		transition-duration: 100MS;
+		-webkit-transition-timing-function: ease-out;
+		transition-timing-function: ease-out;
 	}
 	
 	.pagebutton:hover:before, .pagebutton:focus:before, .pagebutton:active:before {
-	  -webkit-transform: translateY(0);
-	  transform: translateY(0);
+		-webkit-transform: translateY(0);
+		transform: translateY(0);
 	}
 </style>
 

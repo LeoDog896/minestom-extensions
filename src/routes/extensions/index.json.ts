@@ -1,10 +1,14 @@
 import { getExtensions } from './_extensions';
+import type { Extension }from './_extensionTypes'
 
-export function get(req, res) {
-	res.writeHead(200, {
-		'Content-Type': 'application/json'
-	});
+export async function get(): Promise<{ body: { extensions: Extension[] } }> {
 
-	getExtensions().then(content => res.end(JSON.stringify(content)))
+	const extensions = await getExtensions()
+	
+	return { 
+		body: {
+			extensions
+		}
+	}
 
 }

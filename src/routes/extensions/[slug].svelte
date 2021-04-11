@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
 
-	import type { Extension } from "./_extensions"
+	import type { Extension } from "./_extensionTypes"
 
 	export async function preload({ params }) {
 		// the `slug` parameter is available because
@@ -68,7 +68,7 @@
 	<br />
 	<br />
 	<section id="readme">
-		{@html readme}
+		{@html readme || "README not found."}
 	</section>
 	<br>
 </div>
