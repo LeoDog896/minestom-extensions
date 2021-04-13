@@ -1,130 +1,9 @@
-import * as octo from "@octokit/graphql";
 import { config } from "dotenv";
 import type { Extension } from './_extensionTypes'
-import { ExtensionType, Release, ReleaseFile } from './_extensionTypes'
+import { ExtensionType } from './_extensionTypes'
+import { getGithubData } from './_rawExtensions'
 
 const enviornment = config()
-
-interface RawQueryData {
-	search: {
-		edges: {
-			[index: number]: RawExtension
-			map<T>(transform: (RawExtension) => T): T[]
-		}
-	}
-
-}
-
-interface RawExtension {
-	node: {
-		description: string
-		name: string
-		stargazerCount: number
-		owner: { 
-			login: string
-		}
-		releases: {
-			edges: {
-				map<T>(transform: (RawExtension) => T): T[]
-				[index: number]: RawRelease
-			}
-		}
-	}
-}
-
-interface RawRelease {
-	node: {
-		name: string
-		isPrelease: boolean
-		description: string
-		tag: {
-			name: string
-		}
-		releaseAssets: {
-			edges: {
-				map<T>(transform: (RawReleaseFile) => T): T[]
-				[index: number]: RawReleaseFile
-			}
-		}
-	}
-}
-
-interface RawReleaseFile {
-	node: {
-		downloadUrl: string
-		name: string
-		size: number
-	}
-}
-
-/**
- * The GraphQL query to get all the necessary data.
- */
-const query = `
-{
-	search(type: REPOSITORY, query: "topic:minestom-{type}", first: {amount}) {
-	  edges {
-		node {
-		  ... on Repository {
-			description
-			name
-			stargazerCount
-			owner {
-			  login
-			}
-			releases(first: 1) {
-			  edges {
-				node {
-				  name
-				  isPrerelease
-				  description
-				  tag {
-					  name
-				  }
-				  releaseAssets(first: 10) {
-					edges {
-					  node {
-						downloadUrl
-						name
-						size
-					  }
-					}
-				  }
-				}
-			  }
-			}
-		  }
-		}
-	  }
-	}
-  }
-  
-`
-
-// TODO allow cursor indexing
-async function getGithubInformation(topic: string, amount = 50): Promise<RawQueryData> {
-
-	// Clamp the amount to hardcoded 1 to 50.
-	amount = Math.min(Math.max(amount, 1), 50);
-
-	try {
-		const data = await octo.graphql(
-			query.replace("{type}", topic).replace("{amount}", amount.toString()),
-			{
-				headers: {
-					authorization: `token ${enviornment.parsed.GITHUB}`,
-				}
-			}
-		)
-
-		return data as RawQueryData;
-
-	} catch (error) {
-		console.log(error)
-		return null;
-	}
-
-}
 
 /**
  * Gets all extensions from a specific topic and maps them to a type.
@@ -146,48 +25,13 @@ function getExtensionsTopic(topic: string, type: ExtensionType, amount = 50): ()
 		if ((cache && cache.length != 0) && Date.now() - time < 1000 * 60 * 2) return cache
 
 		// Gets the github information from a GraphQL API
-		const data = await getGithubInformation(topic, amount);
-
-		if (data == null) return;
-		
-		// Maps all the data to the slimmer interface.
-		const processedData = data.search.edges
-			.map(item => item.node as RawExtension["node"])
-			.map((item): Extension => {
-				return {
-					name: item.name,
-					slug: item.owner.login + "_" + item.name,
-					description: item.description,
-					type,
-					repo: `https://github.com/${item.owner.login}/${item.name}`,
-					stars: item.stargazerCount,
-					owner: item.owner.login,
-					releases: item.releases.edges
-						.map(release => release.node as RawRelease["node"])
-						.map((item): Release => {
-							return {
-								name: item.name,
-								description: item.description,
-								prelease: item.isPrelease,
-								files: item.releaseAssets.edges
-									.map(item => item.node as RawReleaseFile["node"])
-									.map((item): ReleaseFile => {
-										return {
-											url: item.downloadUrl,
-											name: item.name,
-											size: item.size
-										}
-									})
-							}
-						})
-				}
-			})
+		const data = await getGithubData(topic, amount, enviornment.parsed.GITHUB, type);
 
 		// Refreshes the cache.
-		cache = processedData
+		cache = data
 		time = Date.now()
 
-		return processedData
+		return data
 	}
 }
 
