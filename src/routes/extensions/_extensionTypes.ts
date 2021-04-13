@@ -12,6 +12,12 @@ interface Extension {
 	repo: string
 	owner: string
 	stars: number
+	releases: Release[]
+}
+
+interface Release {
+	url: string,
+	name: string
 }
 
 export type { Extension }

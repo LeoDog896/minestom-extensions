@@ -6,28 +6,38 @@ import { ExtensionType } from './_extensionTypes'
 const enviornment = config()
 
 interface RawQueryData {
-	edges: {
-		search: {
-			description: string,
-			name: string,
-			stargazerCount: number,
-			owner: { 
-				login: string
-			},
-			releases: {
-				edges: [
+	search: {
+		edges: {
+			[index: number]: RawExtension
+			map<T>(transform: (RawExtension) => T): T[]
+		}
+	}
+
+}
+
+interface RawExtension {
+	node: {
+		description: string,
+		name: string,
+		stargazerCount: number,
+		owner: { 
+			login: string
+		},
+		releases: {
+			edges: {
+				[index: number]: {
 					node: {
 						name: string,
 						releaseAssets: {
-							edges: [
-								node: {
+							edges: {
+								[index: number]: {
 									url: string,
 									name: string,
 								}
-							]
+							}
 						}
 					}
-				]
+				}
 			}
 		}
 	}
@@ -72,7 +82,7 @@ const query = `
 `
 
 // TODO allow cursor indexing
-async function getGithubInformation(topic: string, amount = 50): Promise<RawQueryData[]> {
+async function getGithubInformation(topic: string, amount = 50): Promise<RawQueryData> {
 
 	// Clamp the amount to hardcoded 1 to 50.
 	amount = Math.min(Math.max(amount, 1), 50);
@@ -87,11 +97,11 @@ async function getGithubInformation(topic: string, amount = 50): Promise<RawQuer
 			}
 		)
 
-		return data["search"]["edges"].map((element: { node: unknown }) => element["node"])
+		return data as RawQueryData;
 
 	} catch (error) {
 		console.log(error)
-		return [] // Stops the page from crashing accidentally.
+		return null;
 	}
 
 }
@@ -117,19 +127,24 @@ function getExtensionsTopic(topic: string, type: ExtensionType, amount = 50): ()
 
 		// Gets the github information from a GraphQL API
 		const data = await getGithubInformation(topic, amount);
+
+		if (data == null) return;
 		
 		// Maps all the data to the interface. Slimmer!
-		const processedData = data.map(({ name, owner: { login: owner }, description, stargazerCount: stars }): Extension => {
-			return {
-				name,
-				slug: owner + "_" + name,
-				description,
-				type,
-				repo: `https://github.com/${owner}/${name}`,
-				stars,
-				owner
-			}
-		})
+		const processedData = data.search.edges
+			.map(item => item.node)
+			.map((item): Extension => {
+				return {
+					name: item.name,
+					slug: item.owner.login + "_" + item.name,
+					description: item.description,
+					type,
+					repo: `https://github.com/${item.owner.login}/${item.name}`,
+					stars: item.stargazerCount,
+					owner: item.owner.login,
+					releases: item.releases.edges.map(release => release.nodelib)
+				}
+			})
 
 		// Refreshes the cache.
 		cache = processedData
