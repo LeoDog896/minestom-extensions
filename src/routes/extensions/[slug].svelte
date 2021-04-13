@@ -65,13 +65,13 @@
 </style>
 
 <svelte:head>
-	<title>{extension.name}</title>
+	<title>{extension.name || "Unknown"}</title>
 </svelte:head>
 
-<h1>{extension.name}</h1>
+<h1>{extension.name || "Unknown"}</h1>
 
 <div class="content">
-	Source code: <a href="{extension.repo}">{extension.repo}</a>
+	Source code: <a href="{extension.repo || "https://github.com"}">{extension.repo || "Unknown"}</a>
 	<br />
 	<br />
 	<section id="readme">
