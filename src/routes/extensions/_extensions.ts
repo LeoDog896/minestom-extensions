@@ -6,11 +6,30 @@ import { ExtensionType } from './_extensionTypes'
 const enviornment = config()
 
 interface RawQueryData {
-	description: string,
-	name: string,
-	stargazerCount: number,
-	owner: { 
-		login: string
+	edges: {
+		search: {
+			description: string,
+			name: string,
+			stargazerCount: number,
+			owner: { 
+				login: string
+			},
+			releases: {
+				edges: [
+					node: {
+						name: string,
+						releaseAssets: {
+							edges: [
+								node: {
+									url: string,
+									name: string,
+								}
+							]
+						}
+					}
+				]
+			}
+		}
 	}
 }
 
