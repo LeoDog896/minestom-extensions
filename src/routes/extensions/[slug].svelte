@@ -76,9 +76,12 @@
 </svelte:head>
 
 <h1>{extension.name || "Unknown"}</h1>
+<h3>{extension.description || ""}</h3>
+<br />
 
 <div class="content">
 	Source code: <a href="{extension.repo || "https://github.com"}">{extension.repo || "Unknown"}</a>
+	<hr>
 	<br />
 	<br />
 	<section id="readme">
