@@ -14,8 +14,8 @@ export async function get({ params }: { params : { slug: string }}): Promise<{ b
 	if (lookup.has(slug)) {
 		return { 
 			body: { 
-				extension: lookup.get(slug)
-			 }
+				extension: JSON.parse(lookup.get(slug))
+			}
 		}
 	}
 }

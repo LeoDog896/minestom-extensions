@@ -4,7 +4,7 @@
 		const res = await fetch(`extensions.json`)
 
 		if (res.ok) {
-			return { props: { extensions: await res.json() } };
+			return { props: await res.json() };
 		}
 
 		return {

@@ -2,25 +2,32 @@
 
 	import type { Extension } from "./_extensionTypes"
 
-	export async function preload({ params }) {
-		// the `slug` parameter is available because
-		// this file is called [slug].svelte
-		const extensionResponse = await this.fetch(`extensions/${params.slug}.json`);
-		const extension = await extensionResponse.json();
+	export async function load({ page, fetch }) {
 
-		const readmeResponse = await this.fetch(`https://api.github.com/repos/${extension.owner}/${extension.name}/contents/README.md`, {
+		const extensionResponse = await fetch(`extensions/${page.params.slug}.json`);
+
+		const extension = await extensionResponse.json()
+
+		const readmeResponse = await fetch(`https://api.github.com/repos/${extension.owner}/${extension.name}/contents/README.md`, {
 			headers: {
 				'Accept': 'application/vnd.github.v3.html'
 			}
 		})
 
-		const readme = await readmeResponse.text();
-
-		if (extensionResponse.status === 200) {
-			return { extension, readme };
-		} else {
-			this.error(extensionResponse.status, extension.message);
+		if (extensionResponse.ok) {
+			return {
+				props: { 
+					extension,
+					readme: await readmeResponse.text()
+				}
+			}
 		}
+
+		return {
+			status: extensionResponse.status,
+			error: new Error("Invalid Extension")
+		}
+	
 	}
 </script>
 
