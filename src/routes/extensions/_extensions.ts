@@ -6,13 +6,11 @@ import { ExtensionType } from './_extensionTypes'
 const enviornment = config()
 
 interface RawQueryData {
-	node: {
-		description: string,
-		name: string,
-		stargazerCount: number,
-		owner: { 
-			login: string
-		}
+	description: string,
+	name: string,
+	stargazerCount: number,
+	owner: { 
+		login: string
 	}
 }
 
@@ -69,7 +67,7 @@ async function getGithubInformation(topic: string, amount = 50): Promise<RawQuer
 				}
 			})
 
-		return data["search"]["edges"]
+		return data["search"]["edges"]["node"]
 
 	} catch (error) {
 		console.log(error)
@@ -101,7 +99,7 @@ function getExtensionsTopic(topic: string, type: ExtensionType, amount = 50): ()
 		const data = await getGithubInformation(topic, amount);
 		
 		// Maps all the data to the interface. Slimmer!
-		const processedData = data.map(({ node: { name, owner: { login: owner }, description, stargazerCount: stars } }): Extension => {
+		const processedData = data.map(({ name, owner: { login: owner }, description, stargazerCount: stars }): Extension => {
 			return {
 				name,
 				slug: owner + "_" + name,
