@@ -1,7 +1,9 @@
 import * as octo from "@octokit/graphql";
-import {} from "dotenv/config";
+import { config } from "dotenv";
 import type { Extension } from './_extensionTypes'
 import { ExtensionType } from './_extensionTypes'
+
+const enviornment = config()
 
 interface RawQueryData {
 	node: {
@@ -63,14 +65,14 @@ async function getGithubInformation(topic: string, amount = 50): Promise<RawQuer
 			query.replace("{type}", topic).replace("{amount}", amount.toString()),
 			{
 				headers: {
-					authorization: `token ${process.env.GITHUB}`,
+					authorization: `token ${enviornment.parsed.GITHUB}`,
 				}
 			})
 
 		return data["search"]["edges"]
 
 	} catch (error) {
-		console.error(error)
+		console.log(error)
 		return [] // Stops the page from crashing accidentally.
 	}
 

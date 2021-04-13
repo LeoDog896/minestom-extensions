@@ -1,7 +1,7 @@
 
 <script lang="ts">
+	import { page } from '$app/stores'
 	import Nav from '$lib/Nav.svelte';
-	export let segment: string;
 	import '../app.scss';
 </script>
 
@@ -16,7 +16,7 @@
 	}
 </style>
 
-<Nav {segment}/>
+<Nav segment={$page.path}/>
 
 <main>
 	<slot></slot>
