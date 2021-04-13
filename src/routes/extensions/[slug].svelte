@@ -21,6 +21,13 @@
 			}
 		})
 
+		if (!readmeResponse.ok) {
+			return { 
+				status: readmeResponse.status,
+				error: new Error("Invalid README")
+			}
+		}
+
 		return {
 			props: { 
 				extension,
