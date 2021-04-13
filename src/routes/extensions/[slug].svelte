@@ -6,6 +6,13 @@
 
 		const extensionResponse = await fetch(`extensions/${page.params.slug}.json`);
 
+		if (!extensionResponse.ok) {
+			return {
+				status: extensionResponse.status,
+				error: new Error("Invalid Extension")
+			}
+		}
+
 		const extension = (await extensionResponse.json()).extension as Extension;
 
 		const readmeResponse = await fetch(`https://api.github.com/repos/${extension.owner}/${extension.name}/contents/README.md`, {
@@ -14,18 +21,11 @@
 			}
 		})
 
-		if (extensionResponse.ok) {
-			return {
-				props: { 
-					extension,
-					readme: await readmeResponse.text()
-				}
-			}
-		}
-
 		return {
-			status: extensionResponse.status,
-			error: new Error("Invalid Extension")
+			props: { 
+				extension,
+				readme: await readmeResponse.text()
+			}
 		}
 	
 	}
