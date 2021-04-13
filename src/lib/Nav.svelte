@@ -28,12 +28,12 @@
 			text-align: right;
 		}
 	}
-	[aria-current] {
+	.current {
 		position: relative;
 		display: inline-block;
 		transition: 1s;
 	}
-	[aria-current]::after {
+	.current::after {
 		position: absolute;
 		content: '';
 		width: calc(100% - 1em);
@@ -96,12 +96,12 @@
 
 <nav>
 	<ul>
-		<li class="pagebutton"><a aria-current="{segment === undefined ? 'page' : undefined}" href=".">home</a></li>
-		<li class="pagebutton"><a aria-current="{segment === 'about' ? 'page' : undefined}" href="about">about</a></li>
+		<li class="pagebutton"><a class="{segment === "/" ? "current" : ""}" href=".">home</a></li>
+		<li class="pagebutton"><a class="{segment === "/about" ? "current" : ""}" href="about">about</a></li>
 
 		<!-- for the blog link, we're using rel=prefetch so that Sapper prefetches
 		     the blog data when we hover over the link or tap it on a touchscreen -->
-		<li class="pagebutton"><a rel=prefetch aria-current="{segment === 'extensions' ? 'page' : undefined}" href="extensions">extensions</a></li>
+		<li class="pagebutton"><a rel=prefetch class="{segment === "/extensions" ? "current" : ""}" href="extensions">extensions</a></li>
 
 		<li class="social">
 			<a href="https://wiki.minestom.com">

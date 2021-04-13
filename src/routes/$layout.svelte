@@ -3,6 +3,7 @@
 	import { page } from '$app/stores'
 	import Nav from '$lib/Nav.svelte';
 	import '../app.scss';
+	import PageTransition from '$lib/PageTransition.svelte';
 </script>
 
 <style>
@@ -19,5 +20,7 @@
 <Nav segment={$page.path}/>
 
 <main>
-	<slot></slot>
+	<PageTransition refresh={$page.path}>
+		<slot></slot>
+	</PageTransition>
 </main>
