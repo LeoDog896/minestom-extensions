@@ -6,7 +6,7 @@ getExtensions().then(data => data.forEach(extension => {
 	lookup.set(extension.slug, JSON.stringify(extension));
 }));
 
-export async function get({ params }): Promise<{ body: { extension: Extension } }>{
+export async function get({ params }: { params : { slug: string }}): Promise<{ body: { extension: Extension } }>{
 	// the `slug` parameter is available because
 	// this file is called [slug].json.js
 	const { slug } = params;

@@ -3,6 +3,17 @@ import {} from "dotenv/config";
 import type { Extension } from './_extensionTypes'
 import { ExtensionType } from './_extensionTypes'
 
+interface RawQueryData {
+	node: {
+		description: string,
+		name: string,
+		stargazerCount: number,
+		owner: { 
+			login: string
+		}
+	}
+}
+
 /**
  * The GraphQL query to get all the necessary data.
  */
@@ -42,7 +53,7 @@ const query = `
 `
 
 // TODO allow cursor indexing
-async function getGithubInformation(topic: string, amount = 50): Promise<any[]> { // TODO official typing
+async function getGithubInformation(topic: string, amount = 50): Promise<RawQueryData[]> {
 
 	// Clamp the amount to hardcoded 1 to 50.
 	amount = Math.min(Math.max(amount, 1), 50);
@@ -87,7 +98,7 @@ function getExtensionsTopic(topic: string, type: ExtensionType, amount = 50): ()
 		const data = await getGithubInformation(topic, amount);
 		
 		// Maps all the data to the interface. Slimmer!
-		const processedData = data.map(({ node: { name, owner: { owner }, description, stargazerCount: stars } }): Extension => {
+		const processedData = data.map(({ node: { name, owner: { login: owner }, description, stargazerCount: stars } }): Extension => {
 			return {
 				name,
 				slug: owner + "_" + name,
