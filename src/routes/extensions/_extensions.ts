@@ -65,9 +65,10 @@ async function getGithubInformation(topic: string, amount = 50): Promise<RawQuer
 				headers: {
 					authorization: `token ${enviornment.parsed.GITHUB}`,
 				}
-			})
+			}
+		)
 
-		return data["search"]["edges"]["node"]
+		return data["search"]["edges"].map((element: { node: unknown }) => element["node"])
 
 	} catch (error) {
 		console.log(error)
@@ -120,20 +121,33 @@ function getExtensionsTopic(topic: string, type: ExtensionType, amount = 50): ()
 }
 
 /**
- * Gets a list of all the extensions containing all the necessary topics
- * 
- * @return All the extensions
- */
-async function getExtensions(): Promise<Extension[]> {
-	return Promise.all([
-		getExtensionsTopic("extension", ExtensionType.EXTENSION)(),
-		getExtensionsTopic("library", ExtensionType.LIBRARY)(),
-		getExtensionsTopic("server", ExtensionType.SERVER)(),
-	])
-		// Flatten the array.
-		.then(extensions => [].concat(...extensions))
-		// Sorts it from greatest number of stars to smallest number of stars
-		.then(extensions => extensions.sort((extensionA, extensionB) => extensionB.stars - extensionA.stars));
+* Gets a list of all the extensions containing all the necessary topics
+* 
+* @return All the extensions
+*/
+export async function getExtensions(): Promise<Extension[]> {
+   return Promise.all([
+	   getExtensionsTopic("extension", ExtensionType.EXTENSION)(),
+	   getExtensionsTopic("library", ExtensionType.LIBRARY)(),
+	   getExtensionsTopic("server", ExtensionType.SERVER)(),
+   ])
+	   // Flatten the array.
+	   .then(extensions => [].concat(...extensions))
+	   // Sorts it from greatest number of stars to smallest number of stars
+	   .then(extensions => extensions.sort((extensionA, extensionB) => extensionB.stars - extensionA.stars));
 }
 
-export { getExtensions }
+/**
+ * Finds an extension by its slug
+ * 
+ * @param slug The slug of the extension, formatted as (org)_(repo)
+ */
+export async function findExtension(slug: string): Promise<Extension> {
+	const extensions = await getExtensions();
+
+	const possibleExtensions = extensions.filter(extension => extension.slug == slug)
+
+	if (possibleExtensions.length === 0) return null;
+
+	return possibleExtensions[0]
+}

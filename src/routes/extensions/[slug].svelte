@@ -6,7 +6,7 @@
 
 		const extensionResponse = await fetch(`extensions/${page.params.slug}.json`);
 
-		const extension = await extensionResponse.json()
+		const extension = (await extensionResponse.json()).extension as Extension;
 
 		const readmeResponse = await fetch(`https://api.github.com/repos/${extension.owner}/${extension.name}/contents/README.md`, {
 			headers: {
