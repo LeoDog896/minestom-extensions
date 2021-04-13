@@ -1,7 +1,7 @@
 import * as octo from "@octokit/graphql";
 import { config } from "dotenv";
 import type { Extension } from './_extensionTypes'
-import { ExtensionType } from './_extensionTypes'
+import { ExtensionType, Release, ReleaseFile } from './_extensionTypes'
 
 const enviornment = config()
 
@@ -17,29 +17,43 @@ interface RawQueryData {
 
 interface RawExtension {
 	node: {
-		description: string,
-		name: string,
-		stargazerCount: number,
+		description: string
+		name: string
+		stargazerCount: number
 		owner: { 
 			login: string
-		},
+		}
 		releases: {
 			edges: {
-				[index: number]: {
-					node: {
-						name: string,
-						releaseAssets: {
-							edges: {
-								[index: number]: {
-									url: string,
-									name: string,
-								}
-							}
-						}
-					}
-				}
+				map<T>(transform: (RawExtension) => T): T[]
+				[index: number]: RawRelease
 			}
 		}
+	}
+}
+
+interface RawRelease {
+	node: {
+		name: string
+		isPrelease: boolean
+		description: string
+		tag: {
+			name: string
+		}
+		releaseAssets: {
+			edges: {
+				map<T>(transform: (RawReleaseFile) => T): T[]
+				[index: number]: RawReleaseFile
+			}
+		}
+	}
+}
+
+interface RawReleaseFile {
+	node: {
+		downloadUrl: string
+		name: string
+		size: number
 	}
 }
 
@@ -62,11 +76,17 @@ const query = `
 			  edges {
 				node {
 				  name
+				  isPrerelease
+				  description
+				  tag {
+					  name
+				  }
 				  releaseAssets(first: 10) {
 					edges {
 					  node {
-						url
+						downloadUrl
 						name
+						size
 					  }
 					}
 				  }
@@ -130,9 +150,9 @@ function getExtensionsTopic(topic: string, type: ExtensionType, amount = 50): ()
 
 		if (data == null) return;
 		
-		// Maps all the data to the interface. Slimmer!
+		// Maps all the data to the slimmer interface.
 		const processedData = data.search.edges
-			.map(item => item.node)
+			.map(item => item.node as RawExtension["node"])
 			.map((item): Extension => {
 				return {
 					name: item.name,
@@ -142,7 +162,24 @@ function getExtensionsTopic(topic: string, type: ExtensionType, amount = 50): ()
 					repo: `https://github.com/${item.owner.login}/${item.name}`,
 					stars: item.stargazerCount,
 					owner: item.owner.login,
-					releases: item.releases.edges.map(release => release.nodelib)
+					releases: item.releases.edges
+						.map(release => release.node as RawRelease["node"])
+						.map((item): Release => {
+							return {
+								name: item.name,
+								description: item.description,
+								prelease: item.isPrelease,
+								files: item.releaseAssets.edges
+									.map(item => item.node as RawReleaseFile["node"])
+									.map((item): ReleaseFile => {
+										return {
+											url: item.downloadUrl,
+											name: item.name,
+											size: item.size
+										}
+									})
+							}
+						})
 				}
 			})
 

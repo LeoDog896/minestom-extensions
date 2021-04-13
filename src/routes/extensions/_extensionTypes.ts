@@ -15,10 +15,18 @@ interface Extension {
 	releases: Release[]
 }
 
-interface Release {
-	url: string,
+interface Release { 
 	name: string
+	description: string
+	prelease: boolean
+	files: ReleaseFile[]
 }
 
-export type { Extension }
+interface ReleaseFile {
+	url: string,
+	name: string
+	size: number
+}
+
+export type { Extension, Release, ReleaseFile }
 export { ExtensionType }
