@@ -70,6 +70,7 @@ async function getGithubInformation(topic: string, amount = 50): Promise<RawQuer
 		return data["search"]["edges"]
 
 	} catch (error) {
+		console.error(error)
 		return [] // Stops the page from crashing accidentally.
 	}
 
@@ -92,7 +93,7 @@ function getExtensionsTopic(topic: string, type: ExtensionType, amount = 50): ()
 	return async () => {
 
 		// Cache can't be invalid, and 1000 (ms) * 60 (s) * 2 (minutes) before resetting the cache.
-		if (cache && Date.now() - time < 1000 * 60 * 2) return cache
+		if ((cache && cache.length != 0) && Date.now() - time < 1000 * 60 * 2) return cache
 
 		// Gets the github information from a GraphQL API
 		const data = await getGithubInformation(topic, amount);
