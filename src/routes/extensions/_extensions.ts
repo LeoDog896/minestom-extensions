@@ -20,26 +20,24 @@ interface RawQueryData {
 const query = `
 {
 	search(type: REPOSITORY, query: "topic:minestom-{type}", first: {amount}) {
-		edges {
-			node {
-			  ... on Repository {
-				description
-				name
-				stargazerCount
-				owner {
-				  login
-				}
-				releases(first: 1) {
-				  edges {
-					node {
-					  name
-					  releaseAssets(first: 10) {
-						edges {
-						  node {
-							url
-							name
-						  }
-						}
+	  edges {
+		node {
+		  ... on Repository {
+			description
+			name
+			stargazerCount
+			owner {
+			  login
+			}
+			releases(first: 1) {
+			  edges {
+				node {
+				  name
+				  releaseAssets(first: 10) {
+					edges {
+					  node {
+						url
+						name
 					  }
 					}
 				  }
@@ -49,7 +47,9 @@ const query = `
 		  }
 		}
 	  }
-	  
+	}
+  }
+  
 `
 
 // TODO allow cursor indexing
