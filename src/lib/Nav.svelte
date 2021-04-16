@@ -5,6 +5,7 @@
 
 <style lang="scss">
 	nav {
+		width: 100%;
 		border-bottom: 1px solid rgba(255,62,0,0.1);
 		font-weight: 300;
 		padding: 0 1em;
@@ -97,11 +98,11 @@
 <nav>
 	<ul>
 		<li class="pagebutton"><a class="{segment === "/" ? "current" : ""}" href=".">home</a></li>
-		<li class="pagebutton"><a class="{segment === "/about" ? "current" : ""}" href="about">about</a></li>
+		<li class="pagebutton"><a class="{segment === "/about" ? "current" : ""}" href="/about">about</a></li>
 
 		<!-- for the blog link, we're using rel=prefetch so that Sapper prefetches
 		     the blog data when we hover over the link or tap it on a touchscreen -->
-		<li class="pagebutton"><a rel=prefetch class="{segment === "/extensions" ? "current" : ""}" href="extensions">extensions</a></li>
+		<li class="pagebutton"><a rel=prefetch class="{segment === "/extensions" ? "current" : ""}" href="/extensions">extensions</a></li>
 
 		<li class="social">
 			<a href="https://wiki.minestom.com">

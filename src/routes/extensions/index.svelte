@@ -24,9 +24,20 @@
 		border: 1px solid black;
 		padding: 10px;
 		color: black;
-
 		&:hover {
 			color: #222;
+		}
+	}
+
+	@keyframes -global-appear {
+		from {
+			opacity: 0;
+			transform: translateX(-50%);
+		}
+
+		to {
+			opacity: 1;
+			transform: translateX(0%);
 		}
 	}
 	
@@ -68,13 +79,16 @@
 
 <script lang="ts">
 	export let extensions: Extension[];
+
+	const extensionLoopGenerator = (index) => `animation: appear ${100 * (index + 1)}ms;`
+
 </script>
 
 <section id="extensions">
 	{#if Array.isArray(extensions)}
-		{#each extensions as extension}
+		{#each extensions as extension, i}
 			<a href="extensions/{extension.slug}">
-				<div class="extension banner">
+				<div class="extension banner" style={extensionLoopGenerator(i)}>
 					{extension.name}
 					<a href="{extension.repo}">(github)</a>
 					<a href="https://github.com/{extension.owner}">by {extension.owner || "unknown"}</a>
