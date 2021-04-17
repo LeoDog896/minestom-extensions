@@ -6,7 +6,7 @@
 <style lang="scss">
 	nav {
 		border-bottom: 1px solid;
-		border-image-source: linear-gradient(to left, var(--orange), var(--pink));
+		border-image-source: var(--bg-gradient);
 		border-image-slice: 1;
 		font-weight: 300;
 		padding: 0 1em;
