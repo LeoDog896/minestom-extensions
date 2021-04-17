@@ -3,6 +3,7 @@
 	import type { Extension } from "./_extensionTypes"
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores'
+	import marked from 'marked';
 
 	let extension: Extension
 	let readme: string
@@ -25,11 +26,7 @@
 
 		extension = (await extensionResponse.json()).extension as Extension;
 
-		const readmeResponse = await fetch(`https://api.github.com/repos/${extension.owner}/${extension.name}/contents/README.md`, {
-			headers: {
-				'Accept': 'application/vnd.github.v3.html'
-			}
-		})
+		const readmeResponse = await fetch(`https://raw.githubusercontent.com/${extension.owner}/${extension.name}/master/README.md`)
 
 		if (!readmeResponse.ok) {
 			return { 
@@ -38,7 +35,7 @@
 			}
 		}
 
-		readme = await readmeResponse.text()
+		readme = marked(await readmeResponse.text())
 
 	});
 </script>
