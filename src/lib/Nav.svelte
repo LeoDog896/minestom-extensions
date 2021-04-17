@@ -6,11 +6,11 @@
 <style lang="scss">
 	nav {
 		border-bottom: 1px solid;
-		border-image-source: var(--bg-gradient);
+		border-image-source: var(--background);
 		border-image-slice: 1;
 		font-weight: 300;
 		padding: 0 1em;
-		background: --var(background);
+		background: var(--background);
 	}
 	ul {
 		margin: 0;

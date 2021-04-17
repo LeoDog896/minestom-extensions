@@ -5,13 +5,19 @@
 	p {
 		text-align: center;
 		margin: 1em auto;
+		font-size: 1.5rem;
 	}
-	img {
-		height: 100px;
+	h1 {
+		font-size: 7rem;
+		font-family: 'Manrope', sans-serif;
+		text-decoration: bold;
+		font-weight: 800;
+		margin: 0.2em;
 	}
 	h2 {
 		text-align: center;
 		margin: 0 auto;
+		font-size: 2em;
 	}
 	.header {
 		text-align: center;
@@ -23,10 +29,12 @@
 </svelte:head>
 
 <div class="header">
-	<img src="minestom.png" alt="Minestom Logo"/>
+	<h1>Fast.</h1>
+	<h1>Simple.</h1>
+	<h1>Dynamic.</h1>
 </div>
 
-<p>The next generation of Minecraft: Java Edition servers.</p>
+<p>Minestom is the next generation of Minecraft: Java Edition servers.</p>
 <br /><br />
 <h2>Adding an extension</h2>
 
