@@ -1,19 +1,3 @@
-<script context="module" lang="ts">
-	import type { Extension } from './_extensionTypes';
-	export async function load({ fetch }) {
-		const res = await fetch(`extensions.json`)
-
-		if (res.ok) {
-			return { props: await res.json() };
-		}
-
-		return {
-			status: res.status,
-			error: new Error(`Could not load extensions`)
-		};
-	}
-</script>
-
 <svelte:head>
 	<title>Extensions</title>
 </svelte:head>
@@ -23,9 +7,9 @@
 		margin-bottom: 20px;
 		border: 1px solid black;
 		padding: 10px;
-		color: black;
+		color: white;
 		&:hover {
-			color: #222;
+			color: #eee;
 		}
 	}
 
@@ -45,7 +29,7 @@
 		text-decoration: none;
 
 		&:hover {
-			color: #999;
+			color: #222;
 		}
 	}
 	
@@ -65,7 +49,7 @@
 	/* Dont mind me, just making some fancy css */
 	
 	.banner {
-	    background-image: linear-gradient(-90deg, #DDD 50%, transparent 50%);
+	    background-image: linear-gradient(-90deg, rgba(0, 0, 0, 0.2) 50%, transparent 50%);
 	    background-position: 100%;
 	    background-size: 225%;
 	    transition: 1000ms cubic-bezier(0.10, 1.0, 0.10, 1.0);
@@ -78,7 +62,22 @@
 </style>
 
 <script lang="ts">
-	export let extensions: Extension[];
+
+	import type { Extension } from './_extensionTypes';
+	import { onMount } from 'svelte';
+
+	let extensions: Extension[];
+
+	onMount(async() => {
+		const res = await fetch(`/extensions.json`)
+
+		if (res.ok) {
+			extensions = (await res.json()).extensions;
+			return;
+		}
+
+		extensions = []
+	});
 
 	const extensionLoopGenerator = (index) => `animation: appear ${100 * (index + 1)}ms;`
 
@@ -97,8 +96,7 @@
 				</div>
 			</a>
 		{/each}
-	{/if}
-	{#if !Array.isArray(extensions)}
-		<p>An internal error has occurred.</p>
+	{:else}
+		<p>Loading extensions...</p>
 	{/if}
 </section>

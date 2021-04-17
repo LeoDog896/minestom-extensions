@@ -1,10 +1,20 @@
-<script context="module" lang="ts">
+<script lang="ts">
 
 	import type { Extension } from "./_extensionTypes"
+	import { onMount } from 'svelte';
+	import { page } from '$app/stores'
 
-	export async function load({ page, fetch }) {
+	let extension: Extension
+	let readme: string
+	let slug: string
 
-		const extensionResponse = await fetch(`/extensions/${page.params.slug}.json`);
+	page.subscribe(value => {
+		slug = value.params.slug
+	})
+
+	onMount(async () => {
+
+		const extensionResponse = await fetch(`/extensions/${slug}.json`);
 
 		if (!extensionResponse.ok) {
 			return {
@@ -13,7 +23,7 @@
 			}
 		}
 
-		const extension = (await extensionResponse.json()).extension as Extension;
+		extension = (await extensionResponse.json()).extension as Extension;
 
 		const readmeResponse = await fetch(`https://api.github.com/repos/${extension.owner}/${extension.name}/contents/README.md`, {
 			headers: {
@@ -28,19 +38,9 @@
 			}
 		}
 
-		return {
-			props: { 
-				extension,
-				readme: await readmeResponse.text()
-			}
-		}
-	
-	}
-</script>
+		readme = await readmeResponse.text()
 
-<script lang="ts">
-	export let extension: Extension;
-	export let readme: string;
+	});
 </script>
 
 <style>
@@ -72,22 +72,25 @@
 </style>
 
 <svelte:head>
-	<title>{extension.name || "Unknown"}</title>
+	<title>"Unknown"</title>
 </svelte:head>
 
-<h1>{extension.name || "Unknown"}</h1>
-<h3>{extension.description || ""}</h3>
-<br />
+{#if extension}
 
-<a href="{extension.releases[0].files[0].url || (extension.repo + "/releases")}">{extension.releases[0].name}</a>
+	<h1>{extension.name || "Unknown"}</h1>
+	<h3>{extension.description || ""}</h3>
+	<br />
 
-<div class="content">
-	Source code: <a href="{extension.repo || "https://github.com"}">{extension.repo || "Unknown"}</a>
-	<hr>
-	<br />
-	<br />
-	<section id="readme">
-		{@html readme || "README not found."}
-	</section>
-	<br>
-</div>
+	<a href="{extension.releases[0].files[0].url || (extension.repo + "/releases")}">{extension.releases[0].name}</a>
+
+	<div class="content">
+		Source code: <a href="{extension.repo || "https://github.com"}">{extension.repo || "Unknown"}</a>
+		<hr>
+		<br />
+		<br />
+		<section id="readme">
+			{@html readme || "README not found."}
+		</section>
+		<br>
+	</div>
+{/if}

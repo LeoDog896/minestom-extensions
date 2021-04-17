@@ -5,10 +5,12 @@
 
 <style lang="scss">
 	nav {
-		width: 100%;
-		border-bottom: 1px solid rgba(255,62,0,0.1);
+		border-bottom: 1px solid;
+		border-image-source: linear-gradient(to left, var(--orange), var(--pink));
+		border-image-slice: 1;
 		font-weight: 300;
 		padding: 0 1em;
+		background: --var(background);
 	}
 	ul {
 		margin: 0;
@@ -23,6 +25,8 @@
 	li {
 		display: block;
 		float: left;
+		color: white;
+		font-size: 18px;
 
 		&.social {
 			float: right;
@@ -39,7 +43,7 @@
 		content: '';
 		width: calc(100% - 1em);
 		height: 5px;
-		background-color: rgb(255,62,0);
+		background-color: white;
 		display: block;
 		bottom: -1px;
 	}
@@ -77,7 +81,7 @@
 		left: 0;
 		right: 0;
 		bottom: 0;
-		background: rgb(255,62,0);
+		background: white;
 		height: 4px;
 		-webkit-transform: translateY(4px);
 		transform: translateY(4px);
@@ -111,7 +115,7 @@
 		</li>
 		<li class="social">
 			<a href="https://github.com/Minestom/Minestom">
-				<img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="Github"/>
+				<img src="https://pngimg.com/uploads/github/github_PNG63.png" alt="Github"/>
 			</a>
 		</li>
 		<li class="social">
