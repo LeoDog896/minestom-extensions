@@ -93,4 +93,6 @@
 		</section>
 		<br>
 	</div>
+{:else}
+	Loading Extension...
 {/if}
