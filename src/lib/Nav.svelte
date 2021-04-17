@@ -106,7 +106,7 @@
 
 		<!-- for the blog link, we're using rel=prefetch so that Sapper prefetches
 		     the blog data when we hover over the link or tap it on a touchscreen -->
-		<li class="pagebutton"><a rel=prefetch class="{segment === "/extensions" ? "current" : ""}" href="/extensions">extensions</a></li>
+		<li class="pagebutton"><a rel=prefetch class="{segment.includes("/extensions") ? "current" : ""}" href="/extensions">extensions</a></li>
 
 		<li class="social">
 			<a href="https://wiki.minestom.com">
