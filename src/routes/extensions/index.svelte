@@ -29,7 +29,7 @@
 		text-decoration: none;
 
 		&:hover {
-			color: #222;
+			color: #bbb;
 		}
 	}
 	
