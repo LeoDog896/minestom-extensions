@@ -8,7 +8,7 @@
 <style>
 
 	:global(body) {
-		background: var(--bg-gradient);
+		background: var(--background);
 	}
 	main {
 		position: relative;

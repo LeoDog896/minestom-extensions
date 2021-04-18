@@ -13,6 +13,9 @@
 		text-decoration: bold;
 		font-weight: 800;
 		margin: 0.2em;
+		background: var(--bg-gradient);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent; 
 	}
 	h2 {
 		text-align: center;

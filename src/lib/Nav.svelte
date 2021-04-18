@@ -5,12 +5,10 @@
 
 <style lang="scss">
 	nav {
-		border-bottom: 1px solid;
-		border-image-source: var(--background);
-		border-image-slice: 1;
+		border-bottom: 0px;
 
 		font-weight: 300;
-		padding: 0 20px;
+		padding: 0px;
 
 		background: var(--background);
 
@@ -25,6 +23,7 @@
 		flex: 1;
 		display: flex;
 		align-items: center;
+		padding: 0px 20px;
 
 		&.center {
 			justify-content: center;
