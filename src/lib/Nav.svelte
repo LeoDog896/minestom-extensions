@@ -8,32 +8,38 @@
 		border-bottom: 1px solid;
 		border-image-source: var(--background);
 		border-image-slice: 1;
+
 		font-weight: 300;
-		padding: 0 1em;
+		padding: 0 20px;
+
 		background: var(--background);
-	}
-	ul {
-		margin: 0;
-		padding: 0;
 
-		/* clearfix */
-		&::after {
-			content: '';
-			display: block;
-			clear: both;
-		}
-	}
-	li {
-		display: block;
-		float: left;
+		display: flex;
+		flex-flow: row wrap;
+    	justify-content: space-between;
 		color: white;
-		font-size: 18px;
 
-		&.social {
-			float: right;
-			text-align: right;
+	}
+	
+	div {
+		flex: 1;
+		display: flex;
+		align-items: center;
+
+		&.center {
+			justify-content: center;
+			font-size: 1.5em;
+		}
+
+		&.left {
+			justify-content: flex-start;
+		}
+
+		&.right {
+			justify-content: flex-end;
 		}
 	}
+
 	.current {
 		position: relative;
 		display: inline-block;
@@ -67,7 +73,7 @@
 	}
 	/* Page Button fancy css */
 	
-	.pagebutton {
+	a {
 		display: inline-block;
 		vertical-align: middle;
 		-webkit-transform: perspective(1px) translateZ(0);
@@ -96,35 +102,30 @@
 		}
 	}
 	
-	.pagebutton:hover:before, .pagebutton:focus:before, .pagebutton:active:before {
+	a:hover:before, a:focus:before, a:active:before {
 		-webkit-transform: translateY(0);
 		transform: translateY(0);
 	}
 </style>
 
 <nav>
-	<ul>
-		<li class="pagebutton"><a class="{segment === "/" ? "current" : ""}" href=".">home</a></li>
-		<li class="pagebutton"><a class="{segment === "/about" ? "current" : ""}" href="/about">about</a></li>
-
-		<!-- for the blog link, we're using rel=prefetch so that Sapper prefetches
-		     the blog data when we hover over the link or tap it on a touchscreen -->
-		<li class="pagebutton"><a rel=prefetch class="{segment.includes("/extensions") ? "current" : ""}" href="/extensions">extensions</a></li>
-
-		<li class="social">
-			<a href="https://wiki.minestom.com">
-				<img src="https://avatars.githubusercontent.com/u/7111340?s=400&v=4" alt="Github"/>
-			</a>
-		</li>
-		<li class="social">
-			<a href="https://github.com/Minestom/Minestom">
-				<img src="https://pngimg.com/uploads/github/github_PNG63.png" alt="Github"/>
-			</a>
-		</li>
-		<li class="social">
-			<a href="https://discord.com/invite/pkFRvqB">
-				<img src="https://discord.com/assets/2c21aeda16de354ba5334551a883b481.png" alt="Discord"/>
-			</a>
-		</li>
-	</ul>
+	<div class="left">
+		<a class="{segment === "/" ? "current" : ""}" href=".">home</a>
+		<a class="{segment === "/about" ? "current" : ""}" href="/about">about</a>
+		<a rel=prefetch class="{segment.includes("/extensions") ? "current" : ""}" href="/extensions">extensions</a>
+	</div>
+	<div class="center">
+		<p>Minestom</p>
+	</div>
+	<div class="right">
+		<a href="https://wiki.minestom.com">
+			<img src="https://avatars.githubusercontent.com/u/7111340?s=400&v=4" alt="Github"/>
+		</a>
+		<a href="https://github.com/Minestom/Minestom">
+			<img src="https://pngimg.com/uploads/github/github_PNG63.png" alt="Github"/>
+		</a>
+		<a href="https://discord.com/invite/pkFRvqB">
+			<img src="https://discord.com/assets/2c21aeda16de354ba5334551a883b481.png" alt="Discord"/>
+		</a>
+	</div>
 </nav>
