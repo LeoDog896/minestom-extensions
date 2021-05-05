@@ -32,12 +32,12 @@
 </svelte:head>
 
 <div class="header">
-	<h1>Fast.</h1>
-	<h1>Simple.</h1>
-	<h1>Dynamic.</h1>
+	<h1>Fast</h1>
+	<h1>Simple</h1>
+	<h1>Dynamic</h1>
 </div>
 
-<p>Minestom is the next generation of Minecraft: Java Edition servers.</p>
+<p>Minestom is a multithreaded server with barely any default behavior.</p>
 <br /><br />
 <h2>Adding an extension</h2>
 

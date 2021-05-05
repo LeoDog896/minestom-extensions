@@ -38,28 +38,6 @@
 			justify-content: flex-end;
 		}
 	}
-
-	.current {
-		position: relative;
-		display: inline-block;
-		transition: 1s;
-
-		&::after {
-			position: absolute;
-			content: '';
-			width: calc(100% - 1em);
-			height: 5px;
-			background-color: white;
-			display: block;
-			bottom: -1px;
-		}
-	}
-
-	a {
-		text-decoration: none;
-		padding: 1em 0.5em;
-		display: block;
-	}
 	
 	img {
 		object-fit: scale-down;
@@ -73,6 +51,8 @@
 	/* Page Button fancy css */
 	
 	a {
+		text-decoration: none;
+		padding: 1em 0.5em;
 		display: inline-block;
 		vertical-align: middle;
 		-webkit-transform: perspective(1px) translateZ(0);
@@ -81,28 +61,41 @@
 		position: relative;
 		overflow: hidden;
 
+		&.current {
+			position: relative;
+			display: inline-block;
+			transition: 1s;
+
+			&::after {
+				position: absolute;
+				content: '';
+				width: calc(100% - 1em);
+				height: 5px;
+				background-color: white;
+				display: block;
+				bottom: -1px;
+			}
+		}
+
 		&:before {
 			content: "";
 			position: absolute;
-			z-index: -1;
+			width: calc(100% - 1em);
+			margin-left: .5em;
+			z-index: 3;
 			left: 0;
 			right: 0;
 			bottom: 0;
-			background: white;
+			background: var(--orange);
 			height: 4px;
-			-webkit-transform: translateY(4px);
 			transform: translateY(4px);
-			-webkit-transition-property: transform;
 			transition-property: transform;
-			-webkit-transition-duration: 100MS;
 			transition-duration: 100MS;
-			-webkit-transition-timing-function: ease-out;
 			transition-timing-function: ease-out;
 		}
 	}
 	
 	a:hover:before, a:focus:before, a:active:before {
-		-webkit-transform: translateY(0);
 		transform: translateY(0);
 	}
 </style>
