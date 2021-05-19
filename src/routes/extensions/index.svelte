@@ -58,43 +58,44 @@
 		}
 	}
 </style>
+<script lang="ts" context="module">
+	export async function load({ page, fetch }) {
+		const res = await fetch(`/extensions.json`)
 
+		if (!res.ok) {
+			return {
+				status: 404,
+				error: new Error("Extensions not found!")
+			}
+		}
+
+		return {
+			props: {
+				extensions: (await res.json()).extensions
+			}
+		}
+	}
+</script>
 <script lang="ts">
 
 	import type { Extension } from './_extensionTypes';
-	import { onMount } from 'svelte';
 
-	let extensions: Extension[];
-
-	onMount(async() => {
-		const res = await fetch(`/extensions.json`)
-
-		if (res.ok) {
-			extensions = (await res.json()).extensions;
-			return;
-		}
-
-		extensions = []
-	});
+	export let extensions: Extension[];
 
 	const extensionLoopGenerator = (index) => `animation: appear ${100 * (index + 1)}ms;`
 
 </script>
 
 <section id="extensions">
-	{#if Array.isArray(extensions)}
-		{#each extensions as extension, i}
-			<a href="extensions/{extension.slug}">
-				<div class="extension banner" style={extensionLoopGenerator(i)}>
-					{extension.name}
-					<a href="{extension.repo}">(github)</a>
-					<a href="https://github.com/{extension.owner}">by {extension.owner || "unknown"}</a>
-					<span class="right stars">{extension.stars || 0} Stars</span>
-					<p>{extension.description || "No description provided"}</p>
-				</div>
-			</a>
-		{/each}
-	{:else}
-		<p>Loading extensions...</p>
-	{/if}
+	{#each extensions as extension, i}
+		<a href="extensions/{extension.slug}">
+			<div class="extension banner" style={extensionLoopGenerator(i)}>
+				{extension.name}
+				<a href="{extension.repo}">(github)</a>
+				<a href="https://github.com/{extension.owner}">by {extension.owner || "unknown"}</a>
+				<span class="right stars">{extension.stars || 0} Stars</span>
+				<p>{extension.description || "No description provided"}</p>
+			</div>
+		</a>
+	{/each}
 </section>
