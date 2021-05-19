@@ -57,6 +57,24 @@
 			background-size: 200%;
 		}
 	}
+
+	#input-holder {
+		display: grid;
+		place-items: center;
+		margin-bottom: 50px;
+		width: 100%;
+	}
+
+	input {
+		background: transparent;
+		color: white;
+		font-size: 1.5rem;
+		font-family: 'Manrope', sans-serif;
+		outline: 0; // TODO accessiblity?
+		border: solid 1px transparent;
+		text-align: center;
+		width: 100%;
+	}
 </style>
 <script lang="ts" context="module">
 	export async function load({ page, fetch }) {
@@ -79,15 +97,41 @@
 <script lang="ts">
 
 	import type { Extension } from './_extensionTypes';
+	import Fuse from 'fuse.js'
 
 	export let extensions: Extension[];
+
+	const fuse = new Fuse(extensions, {
+		keys: [
+			"name",
+			"description",
+			"owner"
+		]
+	})
+
+	let input = ""
+
+	let displayedExtensions = extensions
+
+	$: {
+		const data = fuse.search(input)
+		if (data.length === 0 && input == "")
+			displayedExtensions = extensions
+		else if (data.length === 0 && input != "")
+			displayedExtensions = []
+		else
+			displayedExtensions = data.map(item => item.item)
+	}
 
 	const extensionLoopGenerator = (index) => `animation: appear ${100 * (index + 1)}ms;`
 
 </script>
 
+<div id="input-holder">
+	<input placeholder="Search for extensions..." bind:value={input}>
+</div>
 <section id="extensions">
-	{#each extensions as extension, i}
+	{#each displayedExtensions as extension, i}
 		<a href="extensions/{extension.slug}">
 			<div class="extension banner" style={extensionLoopGenerator(i)}>
 				{extension.name}
