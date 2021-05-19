@@ -35,17 +35,21 @@ function getExtensionsTopic(topic: string, type: ExtensionType, amount = 50): ()
 	}
 }
 
+const getExtensionsTopicExtension = getExtensionsTopic("extension", ExtensionType.EXTENSION)
+const getExtensionsTopicLibrary = getExtensionsTopic("library", ExtensionType.LIBRARY)
+const getExtensionsTopicServer = getExtensionsTopic("server", ExtensionType.SERVER)
+
 /**
 * Gets a list of all the extensions containing all the necessary topics
 * 
 * @return All the extensions
 */
 export async function getExtensions(): Promise<Extension[]> {
-   return Promise.all([
-	   getExtensionsTopic("extension", ExtensionType.EXTENSION)(),
-	   getExtensionsTopic("library", ExtensionType.LIBRARY)(),
-	   getExtensionsTopic("server", ExtensionType.SERVER)(),
-   ])
+	return Promise.all([
+		getExtensionsTopicExtension(),
+		getExtensionsTopicLibrary(),
+		getExtensionsTopicServer()
+	])
 	   // Flatten the array.
 	   .then(extensions => [].concat(...extensions))
 	   // Sorts it from greatest number of stars to smallest number of stars

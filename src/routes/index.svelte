@@ -8,7 +8,7 @@
 		font-size: 1.5rem;
 	}
 	h1 {
-		font-size: 7rem;
+		font-size: 8rem;
 		font-family: 'Manrope', sans-serif;
 		text-decoration: bold;
 		font-weight: 800;
@@ -37,7 +37,7 @@
 	<h1>Dynamic</h1>
 </div>
 
-<p>Minestom is a multithreaded server with barely any default behavior.</p>
+<p>Minestom is a multithreaded server with <b>no</b> vanilla behavior.</p>
 <br /><br />
 <h2>Adding an extension</h2>
 
