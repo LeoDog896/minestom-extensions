@@ -102,6 +102,7 @@
 	export let extensions: Extension[];
 
 	const fuse = new Fuse(extensions, {
+		useExtendedSearch: true,
 		keys: [
 			"name",
 			"description",

@@ -68,8 +68,9 @@
 <h3>{extension.description || ""}</h3>
 <br />
 
-<a href="{extension.releases[0].files[0].url || (extension.repo + "/releases")}">{extension.releases[0].name}</a>
-
+{#if extension.releases.length > 0}
+	<a href="{extension.releases[0].files[0].url || (extension.repo + "/releases")}">{extension.releases[0].name}</a>
+{/if}
 <div class="content">
 	Source code: <a href="{extension.repo || "https://github.com"}">{extension.repo || "Unknown"}</a>
 	<hr>
