@@ -68,7 +68,7 @@ const query = `
 			owner {
 			  login
 			}
-			releases(first: 1) {
+			releases(first: 100) {
 			  edges {
 				node {
 				  name
