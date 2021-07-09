@@ -4,6 +4,9 @@ enum ExtensionType {
 	LIBRARY = "LIBRARY"
 }
 
+/**
+ * Represents an extension object.
+ */
 interface Extension {
 	name: string
 	slug: string

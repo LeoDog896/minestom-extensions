@@ -60,6 +60,8 @@ export async function getExtensions(): Promise<Extension[]> {
  * Finds an extension by its slug
  * 
  * @param slug The slug of the extension, formatted as (org)_(repo)
+ * 
+ * @return An extension object, if any found.
  */
 export async function findExtension(slug: string): Promise<Extension> {
 	const extensions = await getExtensions();
