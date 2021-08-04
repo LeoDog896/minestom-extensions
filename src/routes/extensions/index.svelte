@@ -138,7 +138,7 @@
 				{extension.name}
 				<a href="{extension.repo}">(github)</a>
 				<a href="https://github.com/{extension.owner}">by {extension.owner || "unknown"}</a>
-				<span class="right stars">{extension.stars || 0} Stars</span>
+				<span class="right stars">{extension.stars || 0} Star{extension.stars == 1 ? "" : "s"}</span>
 				<p>{extension.description || "No description provided"}</p>
 			</div>
 		</a>
