@@ -129,7 +129,7 @@
 </script>
 
 <div id="input-holder">
-	<input placeholder="Search for extensions..." bind:value={input}>
+	<input placeholder="Search for extensions ({extensions.length})..." bind:value={input}>
 </div>
 <section id="extensions">
 	{#each displayedExtensions as extension, i}

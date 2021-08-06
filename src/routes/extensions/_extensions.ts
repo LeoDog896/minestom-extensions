@@ -52,6 +52,8 @@ export async function getExtensions(): Promise<Extension[]> {
 	])
 	   // Flatten the array.
 	   .then(extensions => [].concat(...extensions))
+	   // Remove duplicate entires
+	   .then(extensions => [...new Set(extensions)])
 	   // Sorts it from greatest number of stars to smallest number of stars
 	   .then(extensions => extensions.sort((extensionA, extensionB) => extensionB.stars - extensionA.stars));
 }
