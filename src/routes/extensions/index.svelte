@@ -77,7 +77,10 @@
 	}
 </style>
 <script lang="ts" context="module">
-	export async function load({ page, fetch }) {
+
+	import Container from '$lib/Container.svelte';
+
+	export async function load({ fetch }) {
 		const res = await fetch(`/extensions.json`)
 
 		if (!res.ok) {
@@ -128,19 +131,21 @@
 
 </script>
 
-<div id="input-holder">
-	<input placeholder="Search for extensions ({extensions.length})..." bind:value={input}>
-</div>
-<section id="extensions">
-	{#each displayedExtensions as extension, i}
-		<a href="extensions/{extension.slug}">
-			<div class="extension banner" style={extensionLoopGenerator(i)}>
-				{extension.name}
-				<a href="{extension.repo}">(github)</a>
-				<a href="https://github.com/{extension.owner}">by {extension.owner || "unknown"}</a>
-				<span class="right stars">{extension.stars || 0} Star{extension.stars == 1 ? "" : "s"}</span>
-				<p>{extension.description || "No description provided"}</p>
-			</div>
-		</a>
-	{/each}
-</section>
+<Container>
+	<div id="input-holder">
+		<input placeholder="Search for extensions ({extensions.length})..." bind:value={input}>
+	</div>
+	<section id="extensions">
+		{#each displayedExtensions as extension, i}
+			<a href="extensions/{extension.slug}">
+				<div class="extension banner" style={extensionLoopGenerator(i)}>
+					{extension.name}
+					<a href="{extension.repo}">(github)</a>
+					<a href="https://github.com/{extension.owner}">by {extension.owner || "unknown"}</a>
+					<span class="right stars">{extension.stars || 0} Star{extension.stars == 1 ? "" : "s"}</span>
+					<p>{extension.description || "No description provided"}</p>
+				</div>
+			</a>
+		{/each}
+	</section>
+</Container>

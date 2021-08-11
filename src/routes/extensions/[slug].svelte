@@ -1,4 +1,7 @@
 <script lang="ts" context="module">
+
+	import Container from '$lib/Container.svelte';
+
 	export async function load({ page, fetch }) {
 
 		const extensionResponse = await fetch(`/extensions/${page.params.slug}.json`);
@@ -75,24 +78,26 @@
 	<title>"Unknown"</title>
 </svelte:head>
 
-{#if extension.releases.length > 0}
-	<button>
-		<a href="{extension.releases[extension.releases.length - 1].files[0].url
-			|| (extension.repo + "/releases")}">{extension.releases[extension.releases.length - 1].name} (Latest)</a>
-	</button>
-{/if}
+<Container>
+	{#if extension.releases.length > 0}
+		<button>
+			<a href="{extension.releases[extension.releases.length - 1].files[0].url
+				|| (extension.repo + "/releases")}">{extension.releases[extension.releases.length - 1].name} (Latest)</a>
+		</button>
+	{/if}
 
-<h1>{extension.name || "Unknown"}</h1>
-<h3>{extension.description || ""}</h3>
-<br />
+	<h1>{extension.name || "Unknown"}</h1>
+	<h3>{extension.description || ""}</h3>
+	<br />
 
-<div class="content">
-	Source code: <a href="{extension.repo || "https://github.com"}">{extension.repo || "Unknown"}</a>
-	<hr>
-	<br />
-	<br />
-	<section id="readme">
-		{@html readme || "README not found."}
-	</section>
-	<br>
+	<div class="content">
+		Source code: <a href="{extension.repo || "https://github.com"}">{extension.repo || "Unknown"}</a>
+		<hr>
+		<br />
+		<br />
+		<section id="readme">
+			{@html readme || "README not found."}
+		</section>
+		<br>
 </div>
+</Container>
