@@ -34,15 +34,6 @@
 		}
 	}
 </script>
-<script lang="ts">
-
-	import type { Extension } from "./_extensionTypes"
-	import marked from 'marked';
-
-	export let extension: Extension
-	export let readme: String
-</script>
-
 <style>
 	.content :global(h2) {
 		font-size: 1.4em;
@@ -66,13 +57,38 @@
 		float: right;
 		padding: 5px 10px;
 		background: var(--bg-gradient);
+		color: white;
+		text-decoration: bold;
 		border: none;
 		border-radius: 5px;
 		font-family: 'Manrope', sans-serif;
-		font-size: 1rem;
+		font-size: 1.2rem;
 	}
 
 </style>
+
+<script lang="ts">
+
+	import type { Extension } from "./_extensionTypes"
+	import marked from 'marked';
+
+	export let extension: Extension
+	export let readme: String
+
+	const lastRelease = extension.releases[extension.releases.length - 1]
+
+	const minestomReleases = lastRelease.files.filter((release) => release.name.includes("minestom"))
+	const shadowJarReleases = lastRelease.files.filter((release) => release.name.includes("-all"))
+
+	let chosenFile = (() => {
+		if (minestomReleases.length == 1) 
+			return minestomReleases[0]
+		else if (shadowJarReleases.length == 1)
+			return shadowJarReleases[0]
+		else 
+			return lastRelease.files[0]
+	})()
+</script>
 
 <svelte:head>
 	<title>"Unknown"</title>
@@ -81,8 +97,8 @@
 <Container>
 	{#if extension.releases.length > 0}
 		<button>
-			<a href="{extension.releases[extension.releases.length - 1].files[0].url
-				|| (extension.repo + "/releases")}">{extension.releases[extension.releases.length - 1].name} (Latest)</a>
+			<a href="{chosenFile.url
+				|| (extension.repo + "/releases")}">{lastRelease.name} (Latest)</a>
 		</button>
 	{/if}
 
