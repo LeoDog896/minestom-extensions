@@ -4,7 +4,7 @@
 
 	export async function load({ page, fetch }) {
 
-		const extensionResponse = await fetch(`/extensions/${page.params.slug}.json`);
+		const extensionResponse = await fetch(`/${page.params.slug}.json`);
 
 		if (!extensionResponse.ok) {
 			return {
